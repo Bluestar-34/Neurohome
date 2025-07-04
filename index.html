@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="css/index.css">
 	<link rel="stylesheet" href="template/template.css">
     <style>
+	.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+	}
+	.nav-list {
+		display: flex;
+		background-color: black;
+		height: 50px;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.nav-list a {
+		color: white;
+		text-decoration: none;
+	}
+
+	.nav-left {
+		margin-left: 40px;
+		display: flex;
+		gap: 50px;
+		justify-content: flex-start;
+	}
+
+	.nav-right {
+		display: flex;
+		gap: 50px;
+		justify-content: flex-end;
+		margin-right: 40px;
+	}
         /* 新增样式 */
         .hero-section {
             background: linear-gradient(135deg, #000 0%, #111 100%);
