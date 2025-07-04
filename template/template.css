@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;    /* 重要，允许子元素横向拉伸，保证宽度充满页面   */
+    min-height: 100vh;
+    width: 100%;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+.nav-list {
+    display: flex;
+    background-color: black;
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-list a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-left {
+    margin-left: 40px;
+    display: flex;
+    gap: 50px;
+    justify-content: flex-start;
+}
+
+.nav-right {
+    display: flex;
+    gap: 50px;
+    justify-content: flex-end;
+    margin-right: 40px;
+}
+
+.header {
+    background-color: rgb(233, 231, 231);
+    height:70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 50px;
+}
+
+.header-right {
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    justify-content: flex-start;
+}
+
+.main-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sub-title a {
+    text-decoration: none;
+    color: black;
+}
+
+.title {
+    margin-left: 50px;
+    font-size: 35px;
+    font-family: 'Playfair Display', serif; /* 优雅衬线体 */
+    font-weight: 700;
+    font-size: 3.5rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 古典优雅的衬线体，适合展现摄影的艺术沉淀 */
+}
+.sub-title {
+    text-decoration: none;
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;   /* 现代简约  */
+}
+.title-b {
+    text-decoration: none;
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400; /* 调整字重 */
+    font-size: 1.5rem; /* 调整字体大小 */
+    letter-spacing: 1.5px; /* 调整字母间距 */
+    text-transform: uppercase;
+    line-height: 1.8; /* 增加行高 */
+    position: relative;
+    padding-top: 30 px;
+}
+
+.right-logo {
+    display: flex;
+    align-items: center;
+    gap: 55px;
+    justify-content: flex-end;
+    margin-right: 50px;
+}
+
+.logo-img {
+    display: flex;
+    width: 25   px;
+    height: 25px;
+    object-fit: contain;
+}
+
+.footer-content {
+    background-color: rgb(17, 15, 15);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+}
+
+.back-to-top {
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    right: 30px; /* 距离右侧距离 */
+}
+.back-to-top:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.back-to-top::before {
+    content: "Back to Top";
+    transition: opacity 0.3s;
+}
+
+
