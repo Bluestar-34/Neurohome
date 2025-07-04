@@ -1,0 +1,354 @@
+* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  /* 导航栏样式 - 保持与原网站一致 */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+.nav-list {
+    display: flex;
+    background-color: black;
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+  }
+  
+.nav-list a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+.nav-list a:hover,
+.nav-list a.active {
+    color: #ccc;
+  }
+  
+.nav-left {
+    margin-left: 40px;
+    display: flex;
+    gap: 50px;
+    justify-content: flex-start;
+  }
+  
+.nav-right {
+    display: flex;
+    gap: 50px;
+    justify-content: flex-end;
+    margin-right: 40px;
+  }
+  
+  /* Header样式 - 保持与原网站一致 */
+.header {
+    background-color: rgb(233, 231, 231);
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+.header-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 50px;
+  }
+  
+.main-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.sub-title a {
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s;
+  }
+  
+.sub-title a:hover,
+.sub-title a.active {
+    color: #666;
+  }
+  
+.title {
+    margin-left: 50px;
+    font-size: 35px;
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    font-size: 3.5rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+.title-b {
+    text-decoration: none;
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400; /* 调整字重 */
+    font-size: 1.5rem; /* 调整字体大小 */
+    letter-spacing: 1.5px; /* 调整字母间距 */
+    text-transform: uppercase;
+    line-height: 1.8; /* 增加行高 */
+    position: relative;
+    padding-top: 30 px;
+}
+  
+.sub-title {
+    text-decoration: none;
+    color: black;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+.right-logo {
+    display: flex;
+    align-items: center;
+    gap: 55px;
+    justify-content: flex-end;
+    margin-right: 50px;
+  }
+  
+.logo-img {
+    display: flex;
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+  }
+  
+  /* 登录容器样式 */
+.login-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    padding: 40px 20px;
+    min-height: calc(100vh - 120px - 90px); /* 减去header和footer高度 */
+  }
+  
+.login-content {
+    background-color: black;
+    padding: 60px 50px;
+    border-radius: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  /* 登录头部 */
+.login-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+.login-title {
+    font-family: "Playfair Display", serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  
+.login-subtitle {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+  
+  /* 表单样式 */
+.login-form {
+    margin-bottom: 30px;
+  }
+  
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+  }
+  
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: white;   
+    letter-spacing: 0.5px;
+  }
+  
+.form-group input {
+    color: white;
+    width: 100%;
+    padding: 15px 10px;
+    border: none;
+    border-bottom: 2px solid #f0ebeb;
+    border-left: white;
+    background-color: transparent;
+    font-size: 1rem;
+    font-family: "Montserrat", sans-serif;
+    transition: border-color 0.3s;
+    outline: none;
+  }
+  
+.form-group input:focus {
+    border: 1px solid gray;
+    background-color: transparent;  
+  }
+  
+.form-group input::placeholder {
+    color: black; 
+  }
+  
+  /* 表单选项 */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+  }
+  
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+  }
+  
+.checkbox-container input {
+    margin-right: 8px;
+  }
+  
+.forgot-password {
+    color: white;
+    text-decoration: none;
+    font-family: "Montserrat", sans-serif;
+    transition: color 0.3s;
+  }
+  
+.forgot-password:hover {
+    color: black;
+  }
+  
+  /* 登录按钮 */
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+.login-btn:hover {
+    background-color: #333;
+  }
+  
+  /* 登录底部 */
+.login-footer {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+.login-footer p {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    color: white;
+  }
+  
+.register-link {
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+.register-link:hover {
+    color: white;
+  }
+    /* Footer样式 - 保持与原网站一致 */
+.footer-content {
+    background-color: rgb(17, 15, 15);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+    position: relative;
+  }
+  
+.back-to-top {
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    right: 30px;
+    transition: background-color 0.3s;
+  }
+  
+.back-to-top:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+.error-message {
+    color: #ff4d4f;
+    font-size: 0.95rem;
+    margin-top: 4px;
+    min-height: 20px;
+    display: block;
+    z-index: 10;
+}
+
+.toggle-password-btn {
+    position: absolute;
+    right: 12px;
+    top: 36px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.2s;
+}
+.toggle-password-btn:hover {
+    color: #ccc;
+} 
+
+
+
+
+
+
+
+
+

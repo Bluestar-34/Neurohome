@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuroblue 论坛</title>
+    <link rel="stylesheet" href="css/login.css">
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+        }
+        .forum-container {
+            min-height: calc(100vh - 120px - 90px);
+            padding: 60px 0 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #000;
+        }
+        .forum-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .forum-title {
+            font-family: "Playfair Display", serif;
+            font-size: 2.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .forum-desc {
+            font-family: "Montserrat", sans-serif;
+            font-size: 1.1rem;
+            color: #ccc;
+            font-weight: 300;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+        .forum-actions {
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+        }
+        .forum-btn {
+            background: #111;
+            color: #fff;
+            border: 1.5px solid #444;
+            padding: 10px 32px;
+            font-size: 1.1rem;
+            border-radius: 0;
+            cursor: pointer;
+            font-family: "Montserrat", sans-serif;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, border 0.2s;
+        }
+        .forum-btn:hover {
+            background: #fff;
+            color: #111;
+            border: 1.5px solid #888;
+        }
+        .forum-list {
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+        .forum-post {
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 0;
+            padding: 28px 32px 20px 32px;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: border 0.2s;
+        }
+        .forum-post:hover {
+            border: 1.5px solid #888;
+        }
+        .forum-post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .forum-post-title {
+            font-size: 1.3rem;
+            font-family: "Playfair Display", serif;
+            font-weight: 600;
+            color: #fff;
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            transition: color 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .delete-btn:hover {
+            color: #ff4444;
+        }
+        .forum-post-meta {
+            font-size: 0.95rem;
+            color: #888;
+            margin-bottom: 12px;
+        }
+        .forum-post-content {
+            font-size: 1.08rem;
+            color: #eee;
+            font-family: "Montserrat", sans-serif;
+            margin-bottom: 0;
+        }
+        @media (max-width: 800px) {
+            .forum-list, .forum-actions {
+                max-width: 98vw;
+            }
+            .forum-post {
+                padding: 18px 8vw 14px 8vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-placeholder" style="height: 50px;"></div>
+    <div class="main-container">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <div class="nav-left">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="video.html">视频中心</a></li>
+                    <li><a href="forum.html">社区论坛</a></li>
+                    <li><a href="blog.html">个人博客</a></li>
+                    <li><a href="links.html">友情链接</a></li>
+                    <li><a href="sitemap.html">项目索引</a></li>
+                </div>
+                <div class="nav-right">
+                    <li><a href="user.html">个人中心</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                    <li><a href="support.html">打赏支持</a></li>
+                    <li><a href="settings.html">账号设置</a></li>
+                <li><a href="security-test.html">安全测试</a></li>
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                </div>  
+            </ul>
+        </nav>
+        <div class="forum-container">
+            <div class="forum-header">
+                <div class="forum-title">Neuroblue 论坛</div>
+                <div class="forum-desc">小圈子与外访者的分享与交流空间，欢迎讨论摄影、艺术、生活与灵感。</div>
+            </div>
+            <div class="forum-actions">
+                <button class="forum-btn" onclick="showNewTopicForm()">+ 发起新话题</button>
+            </div>
+            
+            <!-- 新话题表单 -->
+            <div id="newTopicForm" style="display: none; width: 100%; max-width: 700px; margin-bottom: 30px;">
+                <div style="background: #181818; border: 1px solid #333; padding: 20px; border-radius: 0;">
+                    <h3 style="margin-bottom: 15px; color: #fff;">发布新话题</h3>
+                    <div style="margin-bottom: 15px;">
+                        <input type="text" id="topicTitle" placeholder="话题标题..." 
+                               style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 0;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <textarea id="topicContent" placeholder="话题内容..." rows="4"
+                                  style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 0; resize: vertical;"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="forum-btn" onclick="submitTopic()">发布话题</button>
+                        <button class="forum-btn" onclick="hideNewTopicForm()">取消</button>
+                    </div>
+                </div>
+            </div>
+            <div class="forum-list">
+                <div class="forum-post">
+                    <div class="forum-post-title">摄影作品分享｜光影与情感</div>
+                    <div class="forum-post-meta">by Alice · 2024-06-01</div>
+                    <div class="forum-post-content">大家好！这里是我最近拍摄的一组黑白光影作品，欢迎大家点评和交流创作心得。</div>
+                </div>
+                <div class="forum-post">
+                    <div class="forum-post-title">【讨论】你最喜欢的摄影风格？</div>
+                    <div class="forum-post-meta">by Bob · 2024-06-02</div>
+                    <div class="forum-post-content">每个人的摄影风格都不同，你最喜欢哪种？是纪实、人像、风光还是抽象？欢迎留言分享！</div>
+                </div>
+                <div class="forum-post">
+                    <div class="forum-post-title">新手提问：如何入门黑白摄影？</div>
+                    <div class="forum-post-meta">by Carol · 2024-06-03</div>
+                    <div class="forum-post-content">刚刚接触摄影，想请教大家黑白摄影的入门建议和注意事项，谢谢！</div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="right">
+                    Copyright © 2025 开课吧. All rights reserved.
+                </div>
+                <a href="#top" class="back-to-top">↑</a>    
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // 存储型XSS测试 - 显示新话题表单
+        function showNewTopicForm() {
+            document.getElementById('newTopicForm').style.display = 'block';
+        }
+        
+        // 隐藏新话题表单
+        function hideNewTopicForm() {
+            document.getElementById('newTopicForm').style.display = 'none';
+        }
+        
+        // 提交话题 - 存储型XSS测试（论坛页面）
+        function submitTopic() {
+            const title = document.getElementById('topicTitle').value;
+            const content = document.getElementById('topicContent').value;
+            
+            if (title.trim() && content.trim()) {
+                const topics = JSON.parse(localStorage.getItem('forumTopics') || '[]');
+                topics.push({
+                    title: title,
+                    content: content,
+                    author: 'TestUser',
+                    date: new Date().toLocaleDateString()
+                });
+                localStorage.setItem('forumTopics', JSON.stringify(topics));
+                
+                displayStoredTopics();
+                
+                document.getElementById('topicTitle').value = '';
+                document.getElementById('topicContent').value = '';
+                hideNewTopicForm();
+                
+                alert('话题发布成功！');
+            } else {
+                alert('请填写完整的话题信息');
+            }
+        }
+        
+        // 显示存储的话题
+        function displayStoredTopics() {
+            const topics = JSON.parse(localStorage.getItem('forumTopics') || '[]');
+            const forumList = document.querySelector('.forum-list');
+            
+            // 清除现有话题
+            forumList.innerHTML = '';
+            
+            // 添加存储的话题
+            topics.forEach((topic, index) => {
+                const topicDiv = document.createElement('div');
+                topicDiv.className = 'forum-post';
+                topicDiv.dataset.index = index;
+                // 不安全的显示方式 - 演示存储型XSS
+                topicDiv.innerHTML = `
+                    <div class="forum-post-header">
+                        <div class="forum-post-title">${topic.title}</div>
+                        <button class="delete-btn" onclick="deleteTopic(${index})" style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem; padding: 0; margin-left: 10px;">×</button>
+                    </div>
+                    <div class="forum-post-meta">by ${topic.author} · ${topic.date}</div>
+                    <div class="forum-post-content">${topic.content}</div>
+                `;
+                forumList.appendChild(topicDiv);
+            });
+
+            /*
+                // 对所有动态内容进行HTML转义
+                const escapedTitle = escapeHtml(topic.title);
+                const escapedContent = escapeHtml(topic.content);
+                const escapedAuthor = escapeHtml(topic.author);
+                const escapedDate = escapeHtml(topic.date);
+                
+                topicDiv.innerHTML = `
+                    <div class="forum-post-header">
+                        <div class="forum-post-title">${escapedTitle}</div>
+                        <button class="delete-btn" data-index="${index}" style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem; padding: 0; margin-left: 10px;">×</button>
+                    </div>
+                    <div class="forum-post-meta">by ${escapedAuthor} · ${escapedDate}</div>
+                    <div class="forum-post-content">${escapedContent}</div>
+                `;
+                
+                // 添加事件监听器（替代onclick）
+                topicDiv.querySelector('.delete-btn').addEventListener('click', () => {
+                    deleteTopic(index);
+                });
+                
+                forumList.appendChild(topicDiv);
+            });
+
+            // 简单的HTML转义函数
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            
+            
+            
+            
+            
+            
+            */
+            
+            // 添加默认话题
+            const defaultTopics = [
+                {
+                    title: '摄影作品分享｜光影与情感',
+                    author: 'Alice',
+                    date: '2024-06-01',
+                    content: '大家好！这里是我最近拍摄的一组黑白光影作品，欢迎大家点评和交流创作心得。'
+                },
+                {
+                    title: '【讨论】你最喜欢的摄影风格？',
+                    author: 'Bob',
+                    date: '2024-06-02',
+                    content: '每个人的摄影风格都不同，你最喜欢哪种？是纪实、人像、风光还是抽象？欢迎留言分享！'
+                },
+                {
+                    title: '新手提问：如何入门黑白摄影？',
+                    author: 'Carol',
+                    date: '2024-06-03',
+                    content: '刚刚接触摄影，想请教大家黑白摄影的入门建议和注意事项，谢谢！'
+                }
+            ];
+            
+            defaultTopics.forEach((topic, index) => {
+                const topicDiv = document.createElement('div');
+                topicDiv.className = 'forum-post';
+                topicDiv.dataset.index = 'default-' + index;
+                topicDiv.innerHTML = `
+                    <div class="forum-post-header">
+                        <div class="forum-post-title">${topic.title}</div>
+                        <button class="delete-btn" onclick="deleteDefaultTopic(${index})" style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem; padding: 0; margin-left: 10px;">×</button>
+                    </div>
+                    <div class="forum-post-meta">by ${topic.author} · ${topic.date}</div>
+                    <div class="forum-post-content">${topic.content}</div>
+                `;
+                forumList.appendChild(topicDiv);
+            });
+        }
+        
+        // 删除存储的话题
+        function deleteTopic(index) {
+            if (confirm('确定要删除这个话题吗？')) {
+                const topics = JSON.parse(localStorage.getItem('forumTopics') || '[]');
+                topics.splice(index, 1);
+                localStorage.setItem('forumTopics', JSON.stringify(topics));
+                displayStoredTopics();
+                showNotification('话题已删除');
+            }
+        }
+        
+        // 删除默认话题
+        function deleteDefaultTopic(index) {
+            if (confirm('确定要删除这个话题吗？')) {
+                // 从DOM中移除，但不影响localStorage
+                const topicElement = document.querySelector(`[data-index="default-${index}"]`);
+                if (topicElement) {
+                    topicElement.style.opacity = '0';
+                    topicElement.style.transform = 'translateX(-20px)';
+                    setTimeout(() => {
+                        topicElement.remove();
+                        showNotification('话题已删除');
+                    }, 300);
+                }
+            }
+        }
+        
+        // 显示通知
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: rgba(0,0,0,0.9);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                border: 1px solid rgba(255,255,255,0.2);
+                font-size: 0.9rem;
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // 显示动画
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // 自动隐藏
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // 页面加载时显示话题
+        document.addEventListener('DOMContentLoaded', function() {
+            displayStoredTopics();
+        });
+    </script>
+</body>
+</html> 

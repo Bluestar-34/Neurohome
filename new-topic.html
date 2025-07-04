@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发起新话题 - Neuroblue 论坛</title>
+    <link rel="stylesheet" href="css/login.css">
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+        }
+        .new-topic-container {
+            min-height: calc(100vh - 120px - 90px);
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #000;
+        }
+        .new-topic-content {
+            background: #111;
+            padding: 40px 50px;
+            border: 1px solid #333;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .new-topic-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .new-topic-title {
+            font-family: "Playfair Display", serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .new-topic-subtitle {
+            font-family: "Montserrat", sans-serif;
+            font-size: 1rem;
+            color: #ccc;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .topic-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-family: "Montserrat", sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: #181818;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 12px 14px;
+            font-size: 1rem;
+            border-radius: 0;
+            outline: none;
+            transition: border 0.2s;
+            font-family: "Montserrat", sans-serif;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border: 1.5px solid #888;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #888;
+            opacity: 1;
+        }
+        .form-group input::-webkit-input-placeholder,
+        .form-group textarea::-webkit-input-placeholder {
+            color: #888;
+            opacity: 1;
+        }
+        .form-group input::-moz-placeholder,
+        .form-group textarea::-moz-placeholder {
+            color: #888;
+            opacity: 1;
+        }
+        .form-group input:-ms-input-placeholder,
+        .form-group textarea:-ms-input-placeholder {
+            color: #888;
+            opacity: 1;
+        }
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        .form-group select option {
+            background: #181818;
+            color: #fff;
+        }
+        .file-upload-area {
+            border: 2px dashed #444;
+            padding: 30px;
+            text-align: center;
+            background: #0f0f0f;
+            transition: border 0.2s;
+        }
+        .file-upload-area:hover {
+            border-color: #888;
+        }
+        .file-upload-text {
+            color: #ccc;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        .file-upload-btn {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-family: "Montserrat", sans-serif;
+            transition: background 0.2s;
+        }
+        .file-upload-btn:hover {
+            background: #333;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #888;
+        }
+        .checkbox-item label {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 0;
+            cursor: pointer;
+            font-family: "Montserrat", sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            border: 1px solid #444;
+        }
+        .btn-primary {
+            background: #222;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #fff;
+            color: #111;
+            border: 1.5px solid #888;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #ccc;
+        }
+        .btn-secondary:hover {
+            background: #333;
+            color: #fff;
+        }
+        .character-count {
+            font-size: 0.85rem;
+            color: #888;
+            text-align: right;
+            margin-top: 5px;
+        }
+        @media (max-width: 900px) {
+            .new-topic-content {
+                margin: 0 20px;
+                padding: 30px 25px;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-placeholder" style="height: 50px;"></div>
+    <div class="main-container">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <div class="nav-left">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="user.html">个人中心</a></li>
+                    <li><a href="video.html">视频播放</a></li>
+                    <li><a href="forum.html">社区论坛</a></li>
+                </div>
+                <div class="nav-right">
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                    <li><a href="#">下载</a></li>
+                    <li><a href="#">关于</a></li>
+                    <li><a href="#">联系</a></li>
+                </div>  
+            </ul>
+        </nav>
+        <div class="new-topic-container">
+            <div class="new-topic-content">
+                <div class="new-topic-header">
+                    <h1 class="new-topic-title">发起新话题</h1>
+                    <p class="new-topic-subtitle">分享您的想法，开启有意义的讨论</p>
+                </div>
+                <form class="topic-form" id="new-topic-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="topic-title">话题标题 *</label>
+                            <input type="text" id="topic-title" name="title" required maxlength="100" placeholder="请输入话题标题">
+                            <div class="character-count">0/100</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="topic-category">分类</label>
+                            <select id="topic-category" name="category">
+                                <option value="">选择分类</option>
+                                <option value="photography">摄影分享</option>
+                                <option value="discussion">讨论交流</option>
+                                <option value="tutorial">教程指南</option>
+                                <option value="showcase">作品展示</option>
+                                <option value="question">问题求助</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="topic-content">内容详情 *</label>
+                        <textarea id="topic-content" name="content" required maxlength="2000" placeholder="详细描述您的话题内容..."></textarea>
+                        <div class="character-count">0/2000</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="topic-tags">标签</label>
+                        <input type="text" id="topic-tags" name="tags" placeholder="请输入标签，用逗号分隔（如：摄影,黑白,艺术）">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>图片上传</label>
+                        <div class="file-upload-area">
+                            <div class="file-upload-text">点击或拖拽上传图片</div>
+                            <input type="file" id="file-upload" multiple accept="image/*" style="display: none;">
+                            <button type="button" class="file-upload-btn" onclick="document.getElementById('file-upload').click()">选择文件</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>发布设置</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="allow-comments" name="allow_comments" checked>
+                                <label for="allow-comments">允许其他用户评论</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="notify-replies" name="notify_replies" checked>
+                                <label for="notify-replies">有新回复时通知我</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="pin-topic" name="pin_topic">
+                                <label for="pin-topic">申请置顶（需管理员审核）</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">取消</button>
+                        <button type="button" class="btn btn-secondary">保存草稿</button>
+                        <button type="submit" class="btn btn-primary">发布话题</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="right">
+                    Copyright © 2025 开课吧. All rights reserved.
+                </div>
+                <a href="#top" class="back-to-top">↑</a>    
+            </div>
+        </footer>
+    </div>
+    <script>
+        // 字符计数功能
+        function updateCharCount(inputId, countId, maxLength) {
+            const input = document.getElementById(inputId);
+            const counter = input.parentElement.querySelector('.character-count');
+            
+            input.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                counter.textContent = `${currentLength}/${maxLength}`;
+                if (currentLength > maxLength * 0.9) {
+                    counter.style.color = '#ff6b6b';
+                } else {
+                    counter.style.color = '#888';
+                }
+            });
+        }
+        
+        // 初始化字符计数
+        updateCharCount('topic-title', null, 100);
+        updateCharCount('topic-content', null, 2000);
+        
+        // 文件上传处理
+        document.getElementById('file-upload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const uploadArea = document.querySelector('.file-upload-area');
+            const uploadText = document.querySelector('.file-upload-text');
+            
+            if (files.length > 0) {
+                uploadText.textContent = `已选择 ${files.length} 个文件`;
+                uploadArea.style.borderColor = '#888';
+            } else {
+                uploadText.textContent = '点击或拖拽上传图片';
+                uploadArea.style.borderColor = '#444';
+            }
+        });
+        
+        // 表单提交处理
+        document.getElementById('new-topic-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('topic-title').value.trim();
+            const content = document.getElementById('topic-content').value.trim();
+            
+            if (!title || !content) {
+                alert('请填写话题标题和内容');
+                return;
+            }
+            
+            // 这里可以添加实际的提交逻辑
+            alert('话题发布成功！即将返回论坛首页...');
+            setTimeout(() => {
+                window.location.href = 'forum.html';
+            }, 1500);
+        });
+        
+        // 拖拽上传功能
+        const uploadArea = document.querySelector('.file-upload-area');
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#888';
+        });
+        
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#444';
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#444';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('file-upload').files = files;
+                document.querySelector('.file-upload-text').textContent = `已选择 ${files.length} 个文件`;
+            }
+        });
+    </script>
+</body>
+</html> 

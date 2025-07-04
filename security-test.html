@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web安全测试 - Neuroblue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 顶部导航栏 */
+        .top-nav {
+            background: #000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .nav-links a.active {
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* 页面头部 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .page-subtitle {
+            color: #888;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* 安全警告 */
+        .security-warning {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .warning-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .warning-text {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* 测试区域 */
+        .test-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .test-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .test-type {
+            padding: 4px 12px;
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .test-description {
+            color: #888;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            color: #ccc;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .btn-primary {
+            background: white;
+            color: black;
+        }
+        
+        .btn-primary:hover {
+            background: #f0f0f0;
+        }
+        
+        .btn-danger {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-danger:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 结果显示 */
+        .result-area {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 100px;
+        }
+        
+        .result-title {
+            color: #ccc;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .result-content {
+            color: white;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+        
+        /* 防护演示 */
+        .protection-demo {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .protection-title {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        /* XSS测试导航 */
+        .test-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .test-nav-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        
+        .test-nav-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .test-nav-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .test-nav-content {
+            flex: 1;
+        }
+        
+        .test-nav-content h3 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .test-nav-content p {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .test-nav-links {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .test-nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        
+        .test-nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-to-top:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .protection-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        .request-info {
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .request-field {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .field-name {
+            color: #888;
+            font-weight: 500;
+        }
+        
+        .field-value {
+            color: #ccc;
+            word-break: break-all;
+        }
+        
+        /* 底部 */
+        .footer {
+            background: #000;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .test-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Neuroblue</a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="video.html">视频中心</a></li>
+                <li><a href="forum.html">社区论坛</a></li>
+                <li><a href="blog.html">个人博客</a></li>
+                <li><a href="links.html">友情链接</a></li>
+                <li><a href="sitemap.html">项目索引</a></li>
+                <li><a href="user.html">个人中心</a></li>
+                <li><a href="about.html">关于我们</a></li>
+                <li><a href="support.html">打赏支持</a></li>
+                <li><a href="settings.html">账号设置</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <!-- 页面头部 -->
+        <header class="page-header">
+            <h1 class="page-title">Web安全测试</h1>
+            <p class="page-subtitle">XSS漏洞测试与防护措施演示</p>
+        </header>
+
+        <!-- 安全警告 -->
+        <div class="security-warning">
+            <div class="warning-title">安全警告</div>
+            <div class="warning-text">
+                本页面仅用于Web安全学习和测试目的。请勿在生产环境中使用这些测试用例。
+                所有测试都在受控环境中进行，不会对系统造成实际危害。
+            </div>
+        </div>
+        <!-- XSS测试导航 -->
+        <section class="test-section">
+            <h2 class="test-title">XSS测试入口导航</h2>
+            <div class="test-nav-grid">
+                <div class="test-nav-card" onclick="scrollToTest('reflected')">
+                    <div class="test-nav-icon">R</div>
+                    <div class="test-nav-content">
+                        <h3>反射型XSS</h3>
+                        <p>URL参数反射测试，通过表单输入直接显示</p>
+                        <div class="test-nav-links">
+                            <a href="blog.html#xss-test" target="_blank">博客页面测试</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="test-nav-card" onclick="scrollToTest('stored')">
+                    <div class="test-nav-icon">S</div>
+                    <div class="test-nav-content">
+                        <h3>存储型XSS</h3>
+                        <p>数据持久化测试，恶意内容存储在数据库中</p>
+                        <div class="test-nav-links">
+                            <a href="forum.html" target="_blank">论坛页面测试</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="test-nav-card" onclick="scrollToTest('dom')">
+                    <div class="test-nav-icon">D</div>
+                    <div class="test-nav-content">
+                        <h3>DOM型XSS</h3>
+                        <p>动态内容测试，JavaScript直接操作DOM</p>
+                        <div class="test-nav-links">
+                            <a href="video.html" target="_blank">视频页面测试</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- XSS测试说明 -->
+        <section class="test-section">
+            <h2 class="test-title">XSS测试说明</h2>
+            <div class="result-area">
+                <div class="result-title">测试方法:</div>
+                <div class="result-content">
+                    <strong>反射型XSS:</strong> 点击上方"博客页面测试"链接，在博客页面侧边栏搜索框中输入：<code>&lt;script&gt;alert('反射型XSS攻击成功！')&lt;/script&gt;</code><br>
+                    <strong>存储型XSS:</strong> 点击上方"论坛页面测试"链接，在论坛页面发布话题，标题或内容包含：<code>&lt;img src=1 onerror=alert('存储型XSS攻击成功！')&gt;</code><br>
+                    <strong>DOM型XSS:</strong> 点击上方"视频页面测试"链接，在视频页面侧边栏选择：<code>javascript:alert('DOM型XSS攻击成功！')</code><br>
+                    <br>
+                    <strong>测试步骤:</strong><br>
+                    1. 点击对应的测试链接<br>
+                    2. 输入或选择上述恶意载荷<br>
+                    3. 点击测试按钮或提交<br>
+                    4. 观察是否弹出对应的alert警告框
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 返回顶部按钮 -->
+    <a href="#" class="back-to-top" onclick="scrollToTop()">↑</a>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div>Copyright © 2025 Neuroblue. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // 页面加载时获取请求信息
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取User-Agent
+            document.getElementById('userAgentField').textContent = navigator.userAgent;
+            
+            // 获取当前URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const testParam = urlParams.get('test');
+            if (testParam) {
+                document.getElementById('reflectedInput').value = testParam;
+                testReflectedXSS();
+            }
+            
+            // 检查URL锚点，自动跳转到对应测试区域
+            const hash = window.location.hash;
+            if (hash) {
+                const sectionId = hash.substring(1) + '-section';
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    setTimeout(() => {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }, 500);
+                }
+            }
+        });
+        
+        // 跳转到指定测试区域
+        function scrollToTest(type) {
+            const sectionId = type + '-section';
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                // 更新URL锚点
+                window.location.hash = type;
+            }
+        }
+        
+        // 返回顶部
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // 清除URL锚点
+            window.location.hash = '';
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目索引 - Neuroblue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 顶部导航栏 */
+        .top-nav {
+            background: #000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .nav-links a.active {
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* 页面头部 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .page-subtitle {
+            color: #888;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* 分类容器 */
+        .category-section {
+            margin-bottom: 50px;
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .category-description {
+            color: #888;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        /* 页面网格 */
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .page-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .page-card:hover {
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .page-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .page-name {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .page-status {
+            padding: 4px 8px;
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .page-description {
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .page-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .page-links {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .page-link {
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .page-link:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .page-link.primary {
+            background: white;
+            color: black;
+        }
+        
+        .page-link.primary:hover {
+            background: #f0f0f0;
+        }
+        
+        /* 统计信息 */
+        .stats-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* 快速导航 */
+        .quick-nav {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .quick-nav-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .quick-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .quick-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .quick-nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+        
+        .quick-nav-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+        
+        .quick-nav-text {
+            flex: 1;
+        }
+        
+        .quick-nav-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .quick-nav-desc {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        /* 底部 */
+        .footer {
+            background: #000;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .page-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quick-nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Neuroblue</a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="video.html">视频中心</a></li>
+                <li><a href="forum.html">社区论坛</a></li>
+                <li><a href="blog.html">个人博客</a></li>
+                <li><a href="links.html">友情链接</a></li>
+                <li><a href="user.html">个人中心</a></li>
+                <li><a href="about.html">关于我们</a></li>
+                <li><a href="support.html">打赏支持</a></li>
+                <li><a href="settings.html">账号设置</a></li>
+                <li><a href="security-test.html">安全测试</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <!-- 页面头部 -->
+        <header class="page-header">
+            <h1 class="page-title">项目索引</h1>
+            <p class="page-subtitle">Neuroblue 黑白极简创作平台 - 完整的页面导航结构</p>
+        </header>
+
+        <!-- 统计信息 -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">22</div>
+                    <div class="stat-label">总页面数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">主要功能模块</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">页面互链</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">响应式</div>
+                    <div class="stat-label">移动端适配</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 快速导航 -->
+        <section class="quick-nav">
+            <h2 class="quick-nav-title">快速导航</h2>
+            <div class="quick-nav-grid">
+                <a href="index.html" class="quick-nav-item">
+                    <div class="quick-nav-icon">HOME</div>
+                    <div class="quick-nav-text">
+                        <div class="quick-nav-name">首页</div>
+                        <div class="quick-nav-desc">平台主入口</div>
+                    </div>
+                </a>
+                <a href="user.html" class="quick-nav-item">
+                    <div class="quick-nav-icon">USER</div>
+                    <div class="quick-nav-text">
+                        <div class="quick-nav-name">个人中心</div>
+                        <div class="quick-nav-desc">用户管理</div>
+                    </div>
+                </a>
+                <a href="video.html" class="quick-nav-item">
+                    <div class="quick-nav-icon">VIDEO</div>
+                    <div class="quick-nav-text">
+                        <div class="quick-nav-name">视频中心</div>
+                        <div class="quick-nav-desc">视频内容</div>
+                    </div>
+                </a>
+                <a href="blog.html" class="quick-nav-item">
+                    <div class="quick-nav-icon">BLOG</div>
+                    <div class="quick-nav-text">
+                        <div class="quick-nav-name">个人博客</div>
+                        <div class="quick-nav-desc">文章管理</div>
+                    </div>
+                </a>
+                <a href="forum.html" class="quick-nav-item">
+                    <div class="quick-nav-icon">FORUM</div>
+                    <div class="quick-nav-text">
+                        <div class="quick-nav-name">社区论坛</div>
+                        <div class="quick-nav-desc">交流讨论</div>
+                    </div>
+                </a>
+                <a href="settings.html" class="quick-nav-item">
+                    <div class="quick-nav-icon">SETTINGS</div>
+                    <div class="quick-nav-text">
+                        <div class="quick-nav-name">账号设置</div>
+                        <div class="quick-nav-desc">个人配置</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 核心功能页面 -->
+        <section class="category-section">
+            <h2 class="category-title">核心功能页面</h2>
+            <p class="category-description">平台的主要功能模块，包含用户认证、内容管理、社区互动等核心功能</p>
+            
+            <div class="page-grid">
+                <div class="page-card" onclick="location.href='index.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">首页</h3>
+                        </div>
+                        <span class="page-status">核心</span>
+                    </div>
+                    <p class="page-description">平台主入口，展示精选内容、快速入口、数据统计和最新动态</p>
+                    <div class="page-meta">
+                        <span>文件大小: 16KB</span>
+                        <div class="page-links">
+                            <a href="index.html" class="page-link primary">访问</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='user.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">个人中心</h3>
+                        </div>
+                        <span class="page-status">核心</span>
+                    </div>
+                    <p class="page-description">用户个人资料管理，包含Tab切换的内容管理、关注列表、消息中心</p>
+                    <div class="page-meta">
+                        <span>文件大小: 24KB</span>
+                        <div class="page-links">
+                            <a href="user.html" class="page-link primary">访问</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='video.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">视频中心</h3>
+                        </div>
+                        <span class="page-status">核心</span>
+                    </div>
+                    <p class="page-description">视频播放和管理，支持播放/列表模式切换、筛选、评论功能</p>
+                    <div class="page-meta">
+                        <span>文件大小: 31KB</span>
+                        <div class="page-links">
+                            <a href="video.html" class="page-link primary">访问</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='blog.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">个人博客</h3>
+                        </div>
+                        <span class="page-status">核心</span>
+                    </div>
+                    <p class="page-description">博客文章管理，支持分类筛选、搜索、编辑、删除功能</p>
+                    <div class="page-meta">
+                        <span>文件大小: 31KB</span>
+                        <div class="page-links">
+                            <a href="blog.html" class="page-link primary">访问</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='forum.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">社区论坛</h3>
+                        </div>
+                        <span class="page-status">核心</span>
+                    </div>
+                    <p class="page-description">社区讨论功能，展示话题列表，支持发起新话题</p>
+                    <div class="page-meta">
+                        <span>文件大小: 6KB</span>
+                        <div class="page-links">
+                            <a href="forum.html" class="page-link primary">访问</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='settings.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">账号设置</h3>
+                        </div>
+                        <span class="page-status">核心</span>
+                    </div>
+                    <p class="page-description">用户账号配置，包含个人信息、安全设置、隐私设置、通知偏好</p>
+                    <div class="page-meta">
+                        <span>文件大小: 22KB</span>
+                        <div class="page-links">
+                            <a href="settings.html" class="page-link primary">访问</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 用户认证页面 -->
+        <section class="category-section">
+            <h2 class="category-title">用户认证页面</h2>
+            <p class="category-description">用户登录、注册、密码找回等认证相关功能</p>
+            
+            <div class="page-grid">
+                <div class="page-card" onclick="location.href='login.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">用户登录</h3>
+                        </div>
+                        <span class="page-status">认证</span>
+                    </div>
+                    <p class="page-description">用户登录界面，支持密码显示/隐藏切换，记住登录状态</p>
+                    <div class="page-meta">
+                        <span>文件大小: 4.5KB</span>
+                        <div class="page-links">
+                            <a href="login.html" class="page-link primary">访问</a>
+                            <a href="register.html" class="page-link">注册</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='register.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">用户注册</h3>
+                        </div>
+                        <span class="page-status">认证</span>
+                    </div>
+                    <p class="page-description">新用户注册界面，包含表单验证和服务条款确认</p>
+                    <div class="page-meta">
+                        <span>文件大小: 5KB</span>
+                        <div class="page-links">
+                            <a href="register.html" class="page-link primary">访问</a>
+                            <a href="login.html" class="page-link">登录</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='forgot.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">忘记密码</h3>
+                        </div>
+                        <span class="page-status">认证</span>
+                    </div>
+                    <p class="page-description">密码找回功能，支持邮箱或手机号验证</p>
+                    <div class="page-meta">
+                        <span>文件大小: 4KB</span>
+                        <div class="page-links">
+                            <a href="forgot.html" class="page-link primary">访问</a>
+                            <a href="login.html" class="page-link">返回登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 内容发布页面 -->
+        <section class="category-section">
+            <h2 class="category-title">内容发布页面</h2>
+            <p class="category-description">视频发布、博客发布、话题发布等创作功能</p>
+            
+            <div class="page-grid">
+                <div class="page-card" onclick="location.href='video-publish.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">视频发布</h3>
+                        </div>
+                        <span class="page-status">发布</span>
+                    </div>
+                    <p class="page-description">视频上传和编辑功能，支持多种格式、封面设置、分类标签</p>
+                    <div class="page-meta">
+                        <span>文件大小: 35KB</span>
+                        <div class="page-links">
+                            <a href="video-publish.html" class="page-link primary">访问</a>
+                            <a href="video.html" class="page-link">视频中心</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='blog-publish.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">博客发布</h3>
+                        </div>
+                        <span class="page-status">发布</span>
+                    </div>
+                    <p class="page-description">博客文章编辑器，支持Markdown语法、分类设置、标签管理</p>
+                    <div class="page-meta">
+                        <span>文件大小: 25KB</span>
+                        <div class="page-links">
+                            <a href="blog-publish.html" class="page-link primary">访问</a>
+                            <a href="blog.html" class="page-link">博客管理</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='new-topic.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">发布话题</h3>
+                        </div>
+                        <span class="page-status">发布</span>
+                    </div>
+                    <p class="page-description">社区话题发布功能，支持话题分类、内容编辑</p>
+                    <div class="page-meta">
+                        <span>文件大小: 15KB</span>
+                        <div class="page-links">
+                            <a href="new-topic.html" class="page-link primary">访问</a>
+                            <a href="forum.html" class="page-link">论坛</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 功能扩展页面 -->
+        <section class="category-section">
+            <h2 class="category-title">功能扩展页面</h2>
+            <p class="category-description">浏览记录、订阅管理、消息中心、热门话题等扩展功能</p>
+            
+            <div class="page-grid">
+                <div class="page-card" onclick="location.href='history.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">浏览记录</h3>
+                        </div>
+                        <span class="page-status">扩展</span>
+                    </div>
+                    <p class="page-description">用户浏览历史记录，包含统计分析和内容分类</p>
+                    <div class="page-meta">
+                        <span>文件大小: 15KB</span>
+                        <div class="page-links">
+                            <a href="history.html" class="page-link primary">访问</a>
+                            <a href="user.html" class="page-link">个人中心</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='my-subscriptions.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">我的订阅</h3>
+                        </div>
+                        <span class="page-status">扩展</span>
+                    </div>
+                    <p class="page-description">关注用户管理，订阅内容展示和管理</p>
+                    <div class="page-meta">
+                        <span>文件大小: 31KB</span>
+                        <div class="page-links">
+                            <a href="my-subscriptions.html" class="page-link primary">访问</a>
+                            <a href="user.html" class="page-link">个人中心</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='messages.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">消息中心</h3>
+                        </div>
+                        <span class="page-status">扩展</span>
+                    </div>
+                    <p class="page-description">私信消息管理，支持消息发送、接收、删除</p>
+                    <div class="page-meta">
+                        <span>文件大小: 30KB</span>
+                        <div class="page-links">
+                            <a href="messages.html" class="page-link primary">访问</a>
+                            <a href="user.html" class="page-link">个人中心</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='hot-topics.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">热门话题</h3>
+                        </div>
+                        <span class="page-status">扩展</span>
+                    </div>
+                    <p class="page-description">社区热门话题展示，话题分类和热度排行</p>
+                    <div class="page-meta">
+                        <span>文件大小: 30KB</span>
+                        <div class="page-links">
+                            <a href="hot-topics.html" class="page-link primary">访问</a>
+                            <a href="forum.html" class="page-link">论坛</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 信息页面 -->
+        <section class="category-section">
+            <h2 class="category-title">信息页面</h2>
+            <p class="category-description">关于我们、友情链接、打赏支持、404错误等信息展示页面</p>
+            
+            <div class="page-grid">
+                <div class="page-card" onclick="location.href='about.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">关于我们</h3>
+                        </div>
+                        <span class="page-status">信息</span>
+                    </div>
+                    <p class="page-description">平台介绍、团队信息、联系方式、FAQ常见问题</p>
+                    <div class="page-meta">
+                        <span>文件大小: 28KB</span>
+                        <div class="page-links">
+                            <a href="about.html" class="page-link primary">访问</a>
+                            <a href="support.html" class="page-link">打赏支持</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='links.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">友情链接</h3>
+                        </div>
+                        <span class="page-status">信息</span>
+                    </div>
+                    <p class="page-description">合作伙伴链接展示，支持链接申请和预览功能</p>
+                    <div class="page-meta">
+                        <span>文件大小: 15KB</span>
+                        <div class="page-links">
+                            <a href="links.html" class="page-link primary">访问</a>
+                            <a href="about.html" class="page-link">关于我们</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='support.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">打赏支持</h3>
+                        </div>
+                        <span class="page-status">信息</span>
+                    </div>
+                    <p class="page-description">平台支持页面，微信支付二维码，支持说明</p>
+                    <div class="page-meta">
+                        <span>文件大小: 11KB</span>
+                        <div class="page-links">
+                            <a href="support.html" class="page-link primary">访问</a>
+                            <a href="about.html" class="page-link">关于我们</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='404.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">404错误页</h3>
+                        </div>
+                        <span class="page-status">错误</span>
+                    </div>
+                    <p class="page-description">页面不存在错误处理，提供返回首页和搜索功能</p>
+                    <div class="page-meta">
+                        <span>文件大小: 3.3KB</span>
+                        <div class="page-links">
+                            <a href="404.html" class="page-link primary">访问</a>
+                            <a href="index.html" class="page-link">返回首页</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-card" onclick="location.href='security-test.html'">
+                    <div class="page-card-header">
+                        <div>
+                            <h3 class="page-name">Web安全测试</h3>
+                        </div>
+                        <span class="page-status">测试</span>
+                    </div>
+                    <p class="page-description">XSS漏洞测试、HTTP协议分析、安全防护演示</p>
+                    <div class="page-meta">
+                        <span>文件大小: 18KB</span>
+                        <div class="page-links">
+                            <a href="security-test.html" class="page-link primary">访问</a>
+                            <a href="blog.html" class="page-link">博客测试</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div>Copyright © 2025 Neuroblue. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('项目索引页面已加载');
+            
+            // 为所有页面卡片添加点击事件
+            document.querySelectorAll('.page-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const link = this.querySelector('.page-link.primary');
+                    if (link) {
+                        window.location.href = link.href;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>忘记密码</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="header-placeholder" style="height: 50px;"></div>
+    <div class="main-container">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <div class="nav-left">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="video.html">视频中心</a></li>
+                    <li><a href="forum.html">社区论坛</a></li>
+                    <li><a href="blog.html">个人博客</a></li>
+                    <li><a href="links.html">友情链接</a></li>
+                </div>
+                <div class="nav-right">
+                    <li><a href="user.html">个人中心</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                    <li><a href="support.html">打赏支持</a></li>
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                </div>  
+            </ul>
+        </nav>
+        <div class="header">
+            <div class="header-left">
+                <div class="main-title">
+                    <div class="title">Neuroblue</div><span class="title-b">·star</span>
+                </div>
+                <div class="sub-title">
+                    <a href="index.html">黑是光的容器，白是影的独白</a>
+                </div>
+            </div>
+            <div class="right-logo sub-title">
+                沉默是声音的剪影，喧嚣是寂静的镜像
+            </div>
+        </div>
+        <div class="login-container">
+            <div class="login-content">
+                <div class="login-header con">
+                    <h1 class="login-title">忘记密码</h1>
+                    <p class="login-subtitle">请输入注册时使用的邮箱或手机号，我们将发送重置密码的链接</p>
+                </div>
+                <form class="login-form">
+                    <div class="form-group con">
+                        <label for="contact">邮箱/手机号</label>
+                        <input type="text" id="contact" name="contact" required placeholder="请输入注册邮箱或手机号">
+                        <div id="contact-error" class="error-message" style="color:white;height:20px;"></div>
+                    </div>
+                    <button type="submit" class="login-btn con">发送重置链接</button>
+                </form>
+                <div class="login-footer con">
+                    <p>想起密码了？ <a href="login.html" class="register-link" style="color: white;">返回登录</a></p>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="right">
+                    Copyright © 2025 开课吧. All rights reserved.
+                </div>
+                <a href="#top" class="back-to-top">↑</a>    
+            </div>
+        </footer>
+    </div>
+    <script>
+        const contactInput = document.getElementById('contact');
+        const contactError = document.getElementById('contact-error');
+        contactInput.addEventListener('input', function() {
+            const value = contactInput.value;
+            if (validateEmail(value) || validatePhone(value)) {
+                contactError.textContent = '';
+            } else {
+                contactError.textContent = '请输入有效的邮箱或手机号';
+            }
+        });
+        function validateEmail(email) {
+            const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+            return re.test(email);
+        }
+        function validatePhone(phone) {
+            const re = /^\d{11}$/;
+            return re.test(phone);
+        }
+    </script>
+</body>
+</html>

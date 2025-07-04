@@ -1,0 +1,253 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;    /* 重要，允许子元素横向拉伸，保证宽度充满页面   */
+    min-height: 100vh;
+    width: 100%;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+.nav-list {
+    display: flex;
+    background-color: black;
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-list a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-left {
+    margin-left: 40px;
+    display: flex;
+    gap: 50px;
+    justify-content: flex-start;
+}
+
+.nav-right {
+    display: flex;
+    gap: 50px;
+    justify-content: flex-end;
+    margin-right: 40px;
+}
+
+.header {
+    background-color: rgb(252, 248, 248);
+    height:70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 50px;
+}
+
+.header-right {
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    justify-content: flex-start;
+}
+
+.main-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sub-title a {
+    text-decoration: none;
+    color: black;
+}
+
+.title {
+    margin-left: 50px;
+    font-size: 35px;
+    font-family: 'Playfair Display', serif; /* 优雅衬线体 */
+    font-weight: 700;
+    font-size: 3.5rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 古典优雅的衬线体，适合展现摄影的艺术沉淀 */
+}
+.title-b {
+        text-decoration: none;
+        color: black;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400; /* 调整字重 */
+        font-size: 1.5rem; /* 调整字体大小 */
+        letter-spacing: 1.5px; /* 调整字母间距 */
+        text-transform: uppercase;
+        line-height: 1.8; /* 增加行高 */
+        position: relative;
+        padding-top: 30px;
+}
+
+
+.sub-title {
+    text-decoration: none;
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;   /* 现代简约  */
+}
+
+.right-logo {
+    display: flex;
+    align-items: center;
+    gap: 55px;
+    justify-content: flex-end;
+    margin-right: 50px;
+}
+
+.logo-img {
+    display: flex;
+    width: 25   px;
+    height: 25px;
+    object-fit: contain;
+}
+
+
+
+
+.banner-container {
+    background-image: url('https://images.pexels.com/photos/32708362/pexels-photo-32708362.jpeg');
+    background-size: cover;
+    background-position: center;
+    flex:1;    /* 重要，使banner-container占据剩余空间   */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.banner-container .text {
+    font-size: 24px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;   /* 重要 保证 space-between 的正常执行 */
+}
+
+.banner-container .button {
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: black;
+    cursor: pointer;
+}
+
+.banner-container .button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.down-arrow-btn {
+    background-color: transparent;
+}       
+
+.down-arrow-btn img{
+    width: 30px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* 将图标强制变为白色 */
+}
+
+
+.footer-content {
+    background-color: rgb(17, 15, 15);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+}
+
+.back-to-top {
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    right: 30px; /* 距离右侧距离 */
+}
+.back-to-top:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.back-to-top::before {
+    content: "Back to Top";
+    transition: opacity 0.3s;
+}
+
+.aaaa {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.main-content {
+    display: flex;
+    flex: 1; /* 改为1使其填充剩余空间 */
+    width: 100%;
+    align-items: stretch; 
+    margin: 0 auto;
+    padding: 30px 20px;
+    background-color: black;
+}
+
+.image-section {
+    display: flex;
+    align-items: center;
+}
+
+.image-title{
+    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    text-align: left;
+    writing-mode: vertical-rl;
+    margin-left: 50px;
+    letter-spacing: 20px;
+    border-right: 2px solid white;
+    
+}
+
+.image-container {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* 图片自适应设置 */
+.image-card img {
+    width: 100%;
+    height: 500px; /* 固定高度 */
+    object-fit: cover; /* 保持比例填充 */
+    display: block;
+}
+

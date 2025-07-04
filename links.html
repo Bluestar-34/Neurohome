@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>友情链接 - Neuroblue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .top-nav {
+            background: #000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .nav-links a.active {
+            color: white;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .search-input {
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.85rem;
+            width: 200px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .link-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .link-card:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-3px);
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        .preview-area {
+            position: relative;
+            height: 200px;
+            background: #111;
+            overflow: hidden;
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #111;
+        }
+        
+
+        
+        .card-info {
+            padding: 25px;
+        }
+        
+        .site-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+        }
+        
+        .site-url {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 12px;
+        }
+        
+        .site-description {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .site-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .site-tag {
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            border-radius: 2px;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .visit-btn {
+            background: white;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .visit-btn:hover {
+            background: #f0f0f0;
+        }
+        
+
+        
+        .apply-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .apply-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .apply-description {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 25px;
+        }
+        
+        .apply-form {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .apply-input {
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            min-width: 200px;
+        }
+        
+        .apply-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .apply-btn {
+            background: white;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .footer {
+            background: #000;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Neuroblue</a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="video.html">视频中心</a></li>
+                <li><a href="forum.html">社区论坛</a></li>
+                <li><a href="blog.html">个人博客</a></li>
+                <li><a href="links.html" class="active">友情链接</a></li>
+                <li><a href="sitemap.html">项目索引</a></li>
+                <li><a href="user.html">个人中心</a></li>
+                <li><a href="about.html">关于我们</a></li>
+                <li><a href="support.html">打赏支持</a></li>
+                <li><a href="settings.html">账号设置</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">友情链接</h1>
+            <p class="page-subtitle">发现优质网站，连接更多创作者</p>
+        </header>
+
+        <div class="filter-controls">
+            <button class="filter-btn active" data-category="all">全部</button>
+            <button class="filter-btn" data-category="tech">技术</button>
+            <button class="filter-btn" data-category="design">设计</button>
+            <button class="filter-btn" data-category="photo">摄影</button>
+            <button class="filter-btn" data-category="life">生活</button>
+            <input type="text" class="search-input" placeholder="搜索网站..." id="searchInput">
+        </div>
+
+        <div class="links-grid" id="linksGrid">
+
+            <div class="link-card" data-category="tech">
+                <div class="preview-area">
+                    <img class="preview-image" id="image-2" src="images/blog/yzd2.jpg" alt="Nueroblue的小站 ">
+                </div>
+                <div class="card-info">
+                    <h3 class="site-title">Neuroblue</h3>
+                    <p class="site-url">bluestar-34.github.io</p>
+                    <p class="site-description">蓝色星球缔造者</p>
+                    <div class="site-tags">
+                        <span class="site-tag">技术</span>
+                        <span class="site-tag">问答</span>
+                        <span class="site-tag">编程</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://bluestar-34.github.io/categories/%E9%9A%8F%E7%AC%94/" target="_blank" class="visit-btn">访问网站</a>
+                    </div>
+                </div>
+            </div>
+            <div class="link-card" data-category="tech">
+                <div class="preview-area">
+                    <img class="preview-image" id="image-1" src="images/blog/a.jpg" alt="GitHub预览">
+                </div>
+                <div class="card-info">
+                    <h3 class="site-title">Ylin</h3>
+                    <p class="site-url">ylin07.github.io//p>
+                    <p class="site-description">我现在更想打会儿游戏，听听歌，和喜欢的女生聊聊天，吃点想吃的东西，学点想学的技术</p>
+                    <div class="site-tags">
+                        <span class="site-tag">技术</span>
+                        <span class="site-tag">开源</span>
+                        <span class="site-tag">开发</span>
+                        <span class="site-tag">开发</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://ylin07.github.io/" target= "_blank" class="visit-btn">访问网站</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" data-category="tech">
+                <div class="preview-area">
+                    <img class="preview-image" id="image-1" src="images/blog/xzx2.jpg" alt="Cnext的小站">
+                </div>
+                <div class="card-info">
+                    <h3 class="site-title">Cnext</h3>
+                    <p class="site-url">admintor889.github.io</p>
+                    <p class="site-description">路漫漫其修远兮，吾将上下而求索</p>
+                    <div class="site-tags">
+                        <span class="site-tag">技术</span>
+                        <span class="site-tag">开源</span>
+                        <span class="site-tag">开发</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://admintor889.github.io/" target= "_blank" class="visit-btn">访问网站</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="apply-section">
+            <h2 class="apply-title">申请友情链接</h2>
+            <p class="apply-description">如果您希望与Neuroblue建立友情链接，请填写以下信息，我们会尽快审核并回复您。</p>
+            <form class="apply-form" id="applyForm">
+                <input type="text" class="apply-input" placeholder="网站名称" required>
+                <input type="url" class="apply-input" placeholder="网站地址" required>
+                <input type="email" class="apply-input" placeholder="联系邮箱" required>
+                <button type="submit" class="apply-btn">提交申请</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div>Copyright © 2025 Neuroblue. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // 筛选功能
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('searchInput');
+        const linkCards = document.querySelectorAll('.link-card');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const category = this.dataset.category;
+                filterLinks(category, searchInput.value);
+            });
+        });
+        
+        searchInput.addEventListener('input', function() {
+            const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+            filterLinks(activeCategory, this.value);
+        });
+        
+        function filterLinks(category, searchQuery) {
+            linkCards.forEach(card => {
+                const cardCategory = card.dataset.category;
+                const cardTitle = card.querySelector('.site-title').textContent.toLowerCase();
+                const cardDesc = card.querySelector('.site-description').textContent.toLowerCase();
+                
+                const categoryMatch = category === 'all' || cardCategory === category;
+                const searchMatch = !searchQuery || 
+                    cardTitle.includes(searchQuery.toLowerCase()) || 
+                    cardDesc.includes(searchQuery.toLowerCase());
+                
+                if (categoryMatch && searchMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+
+        
+        // 申请表单提交
+        document.getElementById('applyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                name: this.elements[0].value,
+                url: this.elements[1].value,
+                email: this.elements[2].value
+            };
+            console.log('友情链接申请：', formData);
+            alert('申请已提交！我们会尽快审核并回复您。');
+            this.reset();
+        });
+    </script>
+</body>
+</html> 

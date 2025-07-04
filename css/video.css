@@ -1,0 +1,128 @@
+body {
+    background-color: black;
+}
+
+.video-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.video-main video {
+    max-width: 74%;
+    max-height: 80vh; /* 视口高度的80% */
+    width: auto;
+    height: auto;
+}
+
+.video-container {
+    flex:4;
+    display: flex;
+    flex-direction: column  ;
+    align-items: center;
+    justify-content: center;
+}
+
+.lin {
+    display: flex;
+    flex-direction: row;
+    gap: 680px;
+    /* justify-content: space-between; */
+}
+
+.lin img {
+    width: 30px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+.aaa {
+    display: flex;
+    gap: 30px;
+    align-self: start;
+}
+
+/* .bofangliang {
+    justify-content: flex-end;
+} */
+
+/* 评论区容器 */
+.comment-section {
+    margin: 30px auto; /* 上下30px，左右自动居中 */
+    padding: 20px;
+    background: black; /* 深色背景 */
+    /* border-radius: 8px; 圆角 */
+    width: 976px;
+}
+
+/* 标题样式 */
+.comment-title {
+    color: #fff;    
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333; /* 标题下划线 */
+}
+
+/* 输入区域容器 */
+.comment-area {
+    display: flex;
+    gap: 10px; /* 输入框和按钮间距 */
+    align-items: center; /* 垂直居中 */
+}
+
+.comment-area {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    gap: 15px; /* 元素间距 */
+}
+
+.comment-body {
+    width: 100%; /* 充满容器宽度 */
+    min-height: 120px; /* 最小高度 */
+    padding: 15px;
+    font-size: 14px;
+    background: black; /* 深色背景 */
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    resize: vertical; /* 允许垂直调整大小 */
+    line-height: 1.5;
+}
+
+.comment-body:focus {
+    outline: none;
+    border-color: #717274;
+    box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+}
+
+.submit-button {
+    align-self: flex-end; /* 按钮右对齐 */
+    padding: 8px 25px;
+    background: #0c0c0c;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    border: #e7dada;
+}
+
+
+.bbb {
+    display: flex;
+    flex-direction: row;
+}
+
+.video-title{
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    text-align: left;
+    writing-mode: vertical-rl;
+    margin-top: 80px;
+    margin-left: 80px;
+    letter-spacing: 20px;
+    border-right: 2px solid white;
+    padding-bottom: 20px; /* 控制线条长度 */
+}

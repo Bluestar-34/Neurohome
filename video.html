@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频中心 - Neuroblue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 顶部导航栏 */
+        .top-nav {
+            background: #000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .nav-links a.active {
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+        }
+        
+        /* 左侧视频区域 */
+        .video-section {
+            min-height: 0;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .view-mode-toggle {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .toggle-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-btn:hover,
+        .toggle-btn.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        /* 筛选控制 */
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .filter-select option {
+            background: #222;
+            color: white;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.85rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .search-input::placeholder {
+            color: #666;
+            opacity: 1;
+        }
+        
+        /* 当前播放视频 */
+        .current-video {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .video-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #111;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-player video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .video-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .video-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 15px;
+        }
+        
+        .video-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #888;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .video-description {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        /* 评论区 */
+        .comments-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+        }
+        
+        .comments-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .comment-input {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        
+        .comment-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .comment-input::placeholder {
+            color: #666;
+            opacity: 1;
+        }
+        
+        .comment-submit {
+            background: white;
+            border: none;
+            color: #000;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .comment-submit:hover {
+            background: #f0f0f0;
+        }
+        
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .comment-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-author {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .comment-time {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .comment-content {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.5;
+        }
+        
+        /* 视频列表 */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .video-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .video-card:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-2px);
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #111;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+        }
+        
+        .video-card-info {
+            padding: 15px;
+        }
+        
+        .video-card-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            /* -webkit-line-clamp: 2; */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .video-card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        /* 右侧侧边栏 */
+        .sidebar {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .sidebar-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .trending-videos {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .trending-item {
+            display: flex;
+            gap: 10px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        
+        .trending-item:hover {
+            opacity: 0.8;
+        }
+        
+        .trending-thumbnail {
+            width: 60px;
+            height: 34px;
+            background: #111;
+            flex-shrink: 0;
+        }
+        
+        .trending-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .trending-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .trending-title {
+            font-size: 0.8rem;
+            color: #ccc;
+            line-height: 1.3;
+            margin-bottom: 3px;
+            display: -webkit-box;
+            /* -webkit-line-clamp: 2; */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .trending-views {
+            font-size: 0.7rem;
+            color: #666;
+        }
+        
+        .categories-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .category-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .category-name {
+            color: #ccc;
+            font-size: 0.85rem;
+        }
+        
+        .category-count {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        
+        /* 底部 */
+        .footer {
+            background: #000;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px 15px;
+            }
+            
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .video-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .toPublish{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Neuroblue</a>
+            <ul class="nav-links">
+                    <li><a href="index.html">首页</a></li>
+                <li><a href="video.html" class="active">视频中心</a></li>
+                <li><a href="forum.html">社区论坛</a></li>
+                <li><a href="blog.html">个人博客</a></li>
+                <li><a href="links.html">友情链接</a></li>
+                <li><a href="sitemap.html">项目索引</a></li>
+                    <li><a href="user.html">个人中心</a></li>
+                <li><a href="about.html">关于我们</a></li>
+                <li><a href="support.html">打赏支持</a></li>
+                <li><a href="settings.html">账号设置</a></li>
+                <li><a href="security-test.html">安全测试</a></li>
+            </ul>
+        </div>
+        </nav>
+         
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <!-- 左侧视频区域 -->
+        <section class="video-section">
+            <div class="section-header">
+                <h1 class="section-title">视频中心</h1>
+                <div class="view-mode-toggle">
+                    <button class="toggle-btn active" id="playerMode"><a class= "toPublish" href="video-publish.html" style="color: white;">发布视频</a></button>
+                    <button class="toggle-btn active" id="playerMode">播放模式</button>
+                    <button class="toggle-btn" id="gridMode">列表模式</button>
+                </div>
+            </div>
+           
+            <!-- 筛选控制 -->
+            <div class="filter-controls">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">全部分类</option>
+                    <option value="tech">技术教程</option>
+                    <option value="creative">创意设计</option>
+                    <option value="photography">摄影作品</option>
+                    <option value="lifestyle">生活方式</option>
+                </select>
+                <select class="filter-select" id="sortFilter">
+                    <option value="latest">最新发布</option>
+                    <option value="popular">最多观看</option>
+                    <option value="trending">正在热门</option>
+                </select>
+                <input type="text" class="search-input" placeholder="搜索视频..." id="searchInput">
+        </div>
+
+            <!-- 当前播放视频 -->
+            <div class="current-video" id="playerView">
+                <div class="video-player">
+                    <video controls poster="images/video-cover.png">
+                    <source src="video/a1.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放
+                    </video>
+                </div>
+                
+                <div class="video-info">
+                    <div>
+                        <h2 class="video-title">黑白影像的诗意表达</h2>
+                        <div class="video-meta">
+                            <span>创作者：Neuroblue</span>
+                            <span>发布时间：2024年12月20日</span>
+                            <span>观看次数：1,234</span>
+                        </div>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn">点赞</button>
+                        <button class="action-btn">收藏</button>
+                        <button class="action-btn">分享</button>
+                    </div>
+                </div>
+                
+                <div class="video-description">
+                    在这个彩色世界中，黑白影像以其独特的魅力诠释着生活的本质。本视频将带您深入探索黑白摄影的艺术表达，从光影的运用到情感的传达，感受简约之美的无限可能。
+                </div>
+                
+                <!-- 评论区 -->
+                <div class="comments-section">
+                    <h3 class="comments-title">评论讨论</h3>
+                    
+                    <textarea class="comment-input" placeholder="分享您的想法..." rows="3"></textarea>
+                    <button class="comment-submit">发表评论</button>
+                    
+                    <div class="comments-list">
+                        <div class="comment-item">
+                            <div class="comment-author">摄影爱好者</div>
+                            <div class="comment-time">2小时前</div>
+                            <div class="comment-content">非常棒的视频！黑白摄影确实有其独特的魅力，感谢分享这些宝贵的技巧。</div>
+                        </div>
+                        
+                        <div class="comment-item">
+                            <div class="comment-author">艺术创作者</div>
+                            <div class="comment-time">5小时前</div>
+                            <div class="comment-content">很有启发性的内容，特别是关于光影对比的部分。期待看到更多类似的教程。</div>
+                        </div>
+                        
+                        <div class="comment-item">
+                            <div class="comment-author">设计师小王</div>
+                            <div class="comment-time">1天前</div>
+                            <div class="comment-content">简约而不简单，黑白的世界同样充满了无限的表达可能。感谢分享！</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 视频网格列表 -->
+            <div class="video-grid" id="gridView" style="display: none;">
+                <div class="video-card" data-category="photography">
+                    <div class="video-thumbnail">
+                        <img src="images/video-cover.png" alt="视频缩略图">
+                        <div class="video-duration">05:23</div>
+                    </div>
+                    <div class="video-card-info">
+                        <h3 class="video-card-title">黑白影像的诗意表达</h3>
+                        <div class="video-card-meta">
+                            <span>1,234 观看</span>
+                            <span>2天前</span>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="video-card" data-category="tech">
+                    <div class="video-thumbnail">
+                        <img src="images/video-cover.png" alt="视频缩略图">
+                        <div class="video-duration">12:45</div>
+                    </div>
+                    <div class="video-card-info">
+                        <h3 class="video-card-title">前端开发最佳实践分享</h3>
+                        <div class="video-card-meta">
+                            <span>2,567 观看</span>
+                            <span>3天前</span>
+                        </div>
+            </div>
+        </div>
+        
+                <div class="video-card" data-category="creative">
+                    <div class="video-thumbnail">
+                        <img src="images/video-cover.png" alt="视频缩略图">
+                        <div class="video-duration">08:15</div>
+                    </div>
+                    <div class="video-card-info">
+                        <h3 class="video-card-title">极简设计理念与实践</h3>
+                        <div class="video-card-meta">
+                            <span>890 观看</span>
+                            <span>4天前</span>
+                        </div>
+                    </div>
+    </div>
+
+                <div class="video-card" data-category="lifestyle">
+                    <div class="video-thumbnail">
+                        <img src="images/video-cover.png" alt="视频缩略图">
+                        <div class="video-duration">06:32</div>
+                    </div>
+                    <div class="video-card-info">
+                        <h3 class="video-card-title">简约生活的美学追求</h3>
+                        <div class="video-card-meta">
+                            <span>1,456 观看</span>
+                            <span>5天前</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card" data-category="photography">
+                    <div class="video-thumbnail">
+                        <img src="images/video-cover.png" alt="视频缩略图">
+                        <div class="video-duration">09:18</div>
+                    </div>
+                    <div class="video-card-info">
+                        <h3 class="video-card-title">街头摄影构图技巧</h3>
+                        <div class="video-card-meta">
+                            <span>3,234 观看</span>
+                            <span>1周前</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card" data-category="tech">
+                    <div class="video-thumbnail">
+                        <img src="images/video-cover.png" alt="视频缩略图">
+                        <div class="video-duration">15:20</div>
+                    </div>
+                    <div class="video-card-info">
+                        <h3 class="video-card-title">React 18新特性详解</h3>
+                        <div class="video-card-meta">
+                            <span>4,567 观看</span>
+                            <span>1周前</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 右侧侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">热门视频</h3>
+                <ul class="trending-videos">
+                    <li class="trending-item">
+                        <div class="trending-thumbnail">
+                            <img src="images/video-cover.png" alt="缩略图">
+                        </div>
+                        <div class="trending-info">
+                            <div class="trending-title">黑白影像的诗意表达</div>
+                            <div class="trending-views">1,234 观看</div>
+                        </div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-thumbnail">
+                            <img src="images/video-cover.png" alt="缩略图">
+                        </div>
+                        <div class="trending-info">
+                            <div class="trending-title">前端开发最佳实践</div>
+                            <div class="trending-views">2,567 观看</div>
+                        </div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-thumbnail">
+                            <img src="images/video-cover.png" alt="缩略图">
+                        </div>
+                        <div class="trending-info">
+                            <div class="trending-title">极简设计理念</div>
+                            <div class="trending-views">890 观看</div>
+                        </div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-thumbnail">
+                            <img src="images/video-cover.png" alt="缩略图">
+                        </div>
+                        <div class="trending-info">
+                            <div class="trending-title">街头摄影构图技巧</div>
+                            <div class="trending-views">3,234 观看</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">视频分类</h3>
+                <ul class="categories-list">
+                    <li class="category-item" data-category="tech">
+                        <span class="category-name">技术教程</span>
+                        <span class="category-count">42</span>
+                    </li>
+                    <li class="category-item" data-category="creative">
+                        <span class="category-name">创意设计</span>
+                        <span class="category-count">28</span>
+                    </li>
+                    <li class="category-item" data-category="photography">
+                        <span class="category-name">摄影作品</span>
+                        <span class="category-count">35</span>
+                    </li>
+                    <li class="category-item" data-category="lifestyle">
+                        <span class="category-name">生活方式</span>
+                        <span class="category-count">19</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- DOM型XSS测试区域 -->
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">XSS测试</h3>
+                <div style="margin-bottom: 15px;">
+                    <select id="dynamicMenu" style="width: 100%; padding: 8px; background: #000; border: 1px solid #333; color: white; border-radius: 4px;">
+                        <option value="">选择攻击载荷...</option>
+                        <option value="<script>alert(1)</script>">script标签</option>
+                        <option value="<img src=1 onerror=alert(1)>">img标签</option>
+                        <option value="<svg onload=alert(1)></svg>">svg标签</option>
+                        <option value="javascript:alert(1)">javascript协议</option>
+                        <option value="<iframe src=javascript:alert(1)></iframe>">iframe标签</option>
+                    </select>
+                </div>
+                <button onclick="testDomXSS()" style="width: 100%; padding: 8px; background: #333; border: 1px solid #555; color: white; border-radius: 4px; cursor: pointer;">执行攻击</button>
+                <div id="domResult" style="margin-top: 10px; padding: 10px; background: #000; border: 1px solid #333; border-radius: 4px; min-height: 50px; color: #ccc; font-size: 0.9rem;">
+                    攻击结果将显示在这里...
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div>Copyright © 2025 Neuroblue. All rights reserved.</div>
+        </footer>
+
+    <script>
+        // 视图模式切换
+        const playerModeBtn = document.getElementById('playerMode');
+        const gridModeBtn = document.getElementById('gridMode');
+        const playerView = document.getElementById('playerView');
+        const gridView = document.getElementById('gridView');
+        
+        playerModeBtn.addEventListener('click', function() {
+            playerModeBtn.classList.add('active');
+            gridModeBtn.classList.remove('active');
+            playerView.style.display = 'block';
+            gridView.style.display = 'none';
+        });
+        
+        gridModeBtn.addEventListener('click', function() {
+            gridModeBtn.classList.add('active');
+            playerModeBtn.classList.remove('active');
+            playerView.style.display = 'none';
+            gridView.style.display = 'grid';
+        });
+        
+        // 筛选功能
+        function filterVideos() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const videoCards = document.querySelectorAll('.video-card');
+            
+            videoCards.forEach(card => {
+                const category = card.dataset.category;
+                const title = card.querySelector('.video-card-title').textContent.toLowerCase();
+                
+                const categoryMatch = !categoryFilter || category === categoryFilter;
+                const searchMatch = !searchQuery || title.includes(searchQuery);
+                
+                if (categoryMatch && searchMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // 绑定筛选事件
+        document.getElementById('categoryFilter').addEventListener('change', filterVideos);
+        document.getElementById('searchInput').addEventListener('input', filterVideos);
+        
+        // 分类点击筛选
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const category = this.dataset.category;
+                document.getElementById('categoryFilter').value = category;
+                filterVideos();
+            });
+        });
+        
+        // 视频卡片点击事件
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.video-card-title').textContent;
+                
+                // 切换到播放模式
+                playerModeBtn.classList.add('active');
+                gridModeBtn.classList.remove('active');
+                playerView.style.display = 'block';
+                gridView.style.display = 'none';
+                
+                // 更新当前播放视频信息
+                document.querySelector('.current-video .video-title').textContent = title;
+                
+                alert(`正在播放：${title}`);
+            });
+        });
+        
+        // 热门视频点击事件
+        document.querySelectorAll('.trending-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('.trending-title').textContent;
+                
+                // 切换到播放模式
+                playerModeBtn.classList.add('active');
+                gridModeBtn.classList.remove('active');
+                playerView.style.display = 'block';
+                gridView.style.display = 'none';
+                
+                // 更新当前播放视频信息
+                document.querySelector('.current-video .video-title').textContent = title;
+                
+                alert(`正在播放：${title}`);
+            });
+        });
+        
+        // 评论功能
+        document.querySelector('.comment-submit').addEventListener('click', function() {
+            const commentInput = document.querySelector('.comment-input');
+            const commentText = commentInput.value.trim();
+            
+            if (commentText) {
+                const commentsList = document.querySelector('.comments-list');
+                const newComment = document.createElement('div');
+                newComment.className = 'comment-item';
+                newComment.innerHTML = `
+                    <div class="comment-author">当前用户</div>
+                    <div class="comment-time">刚刚</div>
+                    <div class="comment-content">${commentText}</div>
+                `;
+                
+                commentsList.insertBefore(newComment, commentsList.firstChild);
+                commentInput.value = '';
+                
+                alert('评论发表成功！');
+            } else {
+                alert('请输入评论内容');
+            }
+        });
+        
+        // DOM型XSS测试函数（视频页面）
+        function testDomXSS() {
+            const select = document.getElementById('dynamicMenu');
+            const selectedValue = select.value;
+            const resultDiv = document.getElementById('domResult');
+            
+            if (selectedValue) {
+                resultDiv.innerHTML = selectedValue;
+            
+            // resultDiv.textContent = input.trim() || '请输入搜索内容';
+            } else {
+                resultDiv.textContent = '请选择一个选项';
+            }
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('视频中心页面已加载');
+        });
+    </script>
+</body>
+</html>

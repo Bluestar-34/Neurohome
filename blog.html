@@ -1,0 +1,924 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>个人博客 - Neuroblue</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                background: #000;
+                color: white;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            /* 顶部导航栏 */
+            .top-nav {
+                background: #000;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding: 15px 0;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+            
+            .nav-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 20px;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: white;
+                text-decoration: none;
+            }
+            
+            .nav-links {
+                display: flex;
+                gap: 30px;
+                list-style: none;
+            }
+            
+            .nav-links a {
+                color: #ccc;
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.3s ease;
+            }
+            
+            .nav-links a:hover {
+                color: white;
+            }
+            
+            .nav-links a.active {
+                color: white;
+                font-weight: 500;
+            }
+            
+            /* 主要内容区域 */
+            .main-content {
+                flex: 1;
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 40px 20px;
+                display: grid;
+                grid-template-columns: 1fr 300px;
+                gap: 40px;
+            }
+            
+            /* 左侧博客列表 */
+            .blog-section {
+                min-height: 0;
+            }
+            
+            .section-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 30px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: white;
+            }
+            
+            .new-post-btn {
+                background: white;
+                border: none;
+                color: #000;
+                padding: 8px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.85rem;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+            
+            .new-post-btn:hover {
+                background: #f0f0f0;
+                transform: translateY(-1px);
+            }
+            
+            /* 博客统计 */
+            .blog-stats {
+                display: flex;
+                gap: 30px;
+                margin-bottom: 30px;
+                padding: 20px;
+                background: rgba(255,255,255,0.02);
+                border: 1px solid rgba(255,255,255,0.05);
+                border-radius: 8px;
+            }
+            
+            .stat-item {
+                text-align: center;
+                flex: 1;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: white;
+                margin-bottom: 5px;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+                color: #888;
+            }
+            
+            /* 筛选控制 */
+            .filter-controls {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 30px;
+                align-items: center;
+            }
+            
+            .filter-select {
+                padding: 8px 12px;
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 6px;
+                color: white;
+                font-size: 0.85rem;
+                cursor: pointer;
+            }
+            
+            .filter-select option {
+                background: #222;
+                color: white;
+            }
+            
+            .search-input {
+                flex: 1;
+                padding: 8px 12px;
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 6px;
+                color: white;
+                font-size: 0.85rem;
+            }
+            
+            .search-input:focus {
+                outline: none;
+                border-color: rgba(255,255,255,0.3);
+            }
+            
+            .search-input::placeholder {
+                color: #666;
+                opacity: 1;
+            }
+            
+            /* 博客文章列表 */
+            .blog-list {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .blog-card {
+                background: rgba(255,255,255,0.02);
+                border: 1px solid rgba(255,255,255,0.05);
+                border-radius: 12px;
+                padding: 25px;
+                transition: all 0.3s ease;
+                cursor: pointer;
+            }
+            
+            .blog-card:hover {
+                background: rgba(255,255,255,0.05);
+                border-color: rgba(255,255,255,0.1);
+                transform: translateY(-2px);
+            }
+            
+            .blog-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 15px;
+            }
+            
+            .blog-title {
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: white;
+                margin-bottom: 8px;
+                line-height: 1.4;
+                cursor: pointer;
+            }
+            
+            .blog-title:hover {
+                text-decoration: underline;
+            }
+            
+            .blog-meta {
+                display: flex;
+                gap: 15px;
+                font-size: 0.8rem;
+                color: #888;
+                margin-bottom: 15px;
+            }
+            
+            .blog-actions {
+                display: flex;
+                gap: 8px;
+            }
+            
+            .action-btn {
+                background: none;
+                border: 1px solid rgba(255,255,255,0.1);
+                color: #888;
+                padding: 4px 8px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 0.75rem;
+                transition: all 0.3s ease;
+            }
+            
+            .action-btn:hover {
+                background: rgba(255,255,255,0.05);
+                color: white;
+                border-color: rgba(255,255,255,0.3);
+            }
+            
+            .action-btn.delete:hover {
+                background: rgba(255,100,100,0.1);
+                border-color: rgba(255,100,100,0.3);
+                color: #ff6b6b;
+            }
+            
+            .blog-excerpt {
+                font-size: 0.95rem;
+                color: #ccc;
+                line-height: 1.6;
+                margin-bottom: 15px;
+            }
+            
+            .blog-tags {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin-bottom: 15px;
+            }
+            
+            .tag {
+                background: rgba(255,255,255,0.1);
+                color: #ccc;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.75rem;
+            }
+            
+            .blog-stats-mini {
+                display: flex;
+                gap: 20px;
+                font-size: 0.8rem;
+                color: #666;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid rgba(255,255,255,0.05);
+            }
+            
+            .blog-stats-mini span {
+                position: relative;
+                padding-left: 12px;
+            }
+            
+            .blog-stats-mini span:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 3px;
+                height: 3px;
+                background: #666;
+                border-radius: 50%;
+            }
+            
+            .blog-status {
+                display: inline-block;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.75rem;
+                font-weight: 500;
+                margin-left: 10px;
+            }
+            
+            .status-published {
+                background: rgba(255,255,255,0.1);
+                color: #fff;
+                border: 1px solid rgba(255,255,255,0.2);
+            }
+            
+            .status-draft {
+                background: rgba(255,255,255,0.05);
+                color: #ccc;
+                border: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            /* 分页 */
+            .pagination {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                margin-top: 30px;
+            }
+            
+            .pagination a,
+            .pagination span {
+                padding: 8px 12px;
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(255,255,255,0.1);
+                color: #ccc;
+                text-decoration: none;
+                border-radius: 4px;
+                transition: all 0.3s ease;
+                font-size: 0.85rem;
+            }
+            
+            .pagination a:hover {
+                background: rgba(255,255,255,0.1);
+                color: white;
+                border-color: rgba(255,255,255,0.3);
+            }
+            
+            .pagination .current {
+                background: rgba(255,255,255,0.1);
+                color: white;
+                border-color: rgba(255,255,255,0.3);
+            }
+            
+            /* 右侧侧边栏 */
+            .sidebar {
+                background: rgba(255,255,255,0.02);
+                border: 1px solid rgba(255,255,255,0.05);
+                border-radius: 12px;
+                padding: 25px;
+                height: fit-content;
+                position: sticky;
+                top: 120px;
+            }
+            
+            .sidebar-section {
+                margin-bottom: 25px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+            }
+            
+            .sidebar-section:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+            
+            .sidebar-title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: white;
+                margin-bottom: 15px;
+            }
+            
+            .sidebar-list {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .sidebar-list a {
+                color: #ccc;
+                text-decoration: none;
+                font-size: 0.85rem;
+                transition: color 0.3s ease;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .sidebar-list a:hover {
+                color: white;
+            }
+            
+            .sidebar-count {
+                color: #666;
+                font-size: 0.75rem;
+            }
+            
+            .tag-cloud {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            
+            .tag-cloud .tag {
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .tag-cloud .tag:hover {
+                background: rgba(255,255,255,0.2);
+                color: white;
+            }
+            
+            /* 空状态 */
+            .empty-state {
+                text-align: center;
+                padding: 60px 20px;
+                color: #666;
+            }
+            
+            .empty-icon {
+                font-size: 3rem;
+                margin-bottom: 15px;
+            }
+            
+            .empty-text {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            
+            .empty-hint {
+                font-size: 0.85rem;
+                color: #888;
+            }
+            
+            /* 底部 */
+            .footer {
+                background: #000;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                padding: 20px 0;
+                text-align: center;
+                color: #666;
+                font-size: 0.85rem;
+            }
+            
+            /* 响应式设计 */
+            @media (max-width: 768px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                    gap: 30px;
+                    padding: 20px 15px;
+                }
+                
+                .nav-container {
+                    padding: 0 15px;
+                }
+                
+                .nav-links {
+                    gap: 20px;
+                }
+                
+                .blog-stats {
+                    flex-direction: column;
+                    gap: 15px;
+                }
+                
+                .filter-controls {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                
+                .blog-header {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                
+                .blog-actions {
+                    align-self: flex-start;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 顶部导航 -->
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="index.html" class="logo">Neuroblue</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="video.html">视频中心</a></li>
+                    <li><a href="forum.html">社区论坛</a></li>
+                    <li><a href="blog.html" class="active">个人博客</a></li>
+                    <li><a href="links.html">友情链接</a></li>
+                    <li><a href="sitemap.html">项目索引</a></li>
+                    <li><a href="user.html">个人中心</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                    <li><a href="support.html">打赏支持</a></li>
+                    <li><a href="settings.html">账号设置</a></li>
+                    <li><a href="security-test.html">安全测试</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 主要内容 -->
+        <main class="main-content">
+            <!-- 左侧博客列表 -->
+            <section class="blog-section">
+                <div class="section-header">
+                    <h1 class="section-title">我的博客</h1>
+                    <a href="blog-publish.html" class="new-post-btn">写文章</a>
+                </div>
+                
+                <!-- 博客统计 -->
+                <div class="blog-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">总文章</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1,234</div>
+                        <div class="stat-label">总浏览</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">89</div>
+                        <div class="stat-label">总点赞</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">45</div>
+                        <div class="stat-label">总评论</div>
+                    </div>
+                </div>
+                
+                <!-- 筛选控制 -->
+                <div class="filter-controls">
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="">全部分类</option>
+                        <option value="tech">技术分享</option>
+                        <option value="life">生活记录</option>
+                        <option value="photo">摄影作品</option>
+                        <option value="thoughts">随笔感悟</option>
+                    </select>
+                    <select class="filter-select" id="statusFilter">
+                        <option value="">全部状态</option>
+                        <option value="published">已发布</option>
+                        <option value="draft">草稿</option>
+                    </select>
+                    <input type="text" class="search-input" placeholder="搜索文章标题..." id="searchInput">
+                </div>
+                
+                <!-- 博客文章列表 -->
+                <div class="blog-list" id="blogList">
+                    <article class="blog-card" data-category="photo" data-status="published">
+                        <div class="blog-header">
+                            <div>
+                                <h2 class="blog-title" onclick="viewPost(1)">黑白摄影的艺术表达：光影与情感的对话</h2>
+                                <div class="blog-meta">
+                                    <span>2024年12月15日</span>
+                                    <span>摄影作品</span>
+                                    <span class="status-published blog-status">已发布</span>
+                                </div>
+                            </div>
+                            <div class="blog-actions">
+                                <button class="action-btn" onclick="editPost(1)">编辑</button>
+                                <button class="action-btn delete" onclick="deletePost(1)">删除</button>
+                            </div>
+                        </div>
+                        
+                        <div class="blog-excerpt">
+                            黑白摄影不仅仅是色彩的缺失，而是一种纯粹的艺术表达方式。在这个彩色世界中，黑白影像以其独特的魅力诠释着生活的本质。光与影的交替，明与暗的对比，构成了黑白摄影最迷人的语言...
+                        </div>
+                        
+                        <div class="blog-tags">
+                            <span class="tag">摄影</span>
+                            <span class="tag">黑白</span>
+                            <span class="tag">艺术</span>
+                            <span class="tag">创作</span>
+                        </div>
+                        
+                        <div class="blog-stats-mini">
+                            <span>阅读 158</span>
+                            <span>点赞 24</span>
+                            <span>评论 12</span>
+                        </div>
+                    </article>
+
+                    <article class="blog-card" data-category="tech" data-status="published">
+                        <div class="blog-header">
+                            <div>
+                                <h2 class="blog-title" onclick="viewPost(2)">React 18新特性深度解析</h2>
+                                <div class="blog-meta">
+                                    <span>2024年12月10日</span>
+                                    <span>技术分享</span>
+                                    <span class="status-published blog-status">已发布</span>
+                                </div>
+                            </div>
+                            <div class="blog-actions">
+                                <button class="action-btn" onclick="editPost(2)">编辑</button>
+                                <button class="action-btn delete" onclick="deletePost(2)">删除</button>
+                            </div>
+                        </div>
+                        
+                        <div class="blog-excerpt">
+                            React 18带来了许多令人兴奋的新特性，包括并发渲染、自动批处理、新的Hooks等。本文将深入探讨这些新特性的实现原理和使用场景，帮助开发者更好地理解和应用React 18...
+                        </div>
+                        
+                        <div class="blog-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">前端</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">技术</span>
+                        </div>
+                        
+                        <div class="blog-stats-mini">
+                            <span>阅读 342</span>
+                            <span>点赞 56</span>
+                            <span>评论 23</span>
+                        </div>
+                    </article>
+
+                    <article class="blog-card" data-category="life" data-status="draft">
+                        <div class="blog-header">
+                            <div>
+                                <h2 class="blog-title" onclick="viewPost(3)">北欧风格家居设计心得</h2>
+                                <div class="blog-meta">
+                                    <span>2024年12月8日</span>
+                                    <span>生活记录</span>
+                                    <span class="status-draft blog-status">草稿</span>
+                                </div>
+                            </div>
+                            <div class="blog-actions">
+                                <button class="action-btn" onclick="editPost(3)">编辑</button>
+                                <button class="action-btn delete" onclick="deletePost(3)">删除</button>
+                            </div>
+                        </div>
+                        
+                        <div class="blog-excerpt">
+                            北欧风格以其简洁、自然、舒适的特点深受现代人喜爱。从色彩搭配到家具选择，从光线运用到空间布局，每一个细节都体现着北欧设计的精髓。让我们一起探索如何打造理想的北欧风格家居...
+                        </div>
+                        
+                        <div class="blog-tags">
+                            <span class="tag">北欧风格</span>
+                            <span class="tag">家居设计</span>
+                            <span class="tag">生活方式</span>
+                        </div>
+                        
+                        <div class="blog-stats-mini">
+                            <span>阅读 0</span>
+                            <span>点赞 0</span>
+                            <span>评论 0</span>
+                        </div>
+                    </article>
+
+                    <article class="blog-card" data-category="thoughts" data-status="published">
+                        <div class="blog-header">
+                            <div>
+                                <h2 class="blog-title" onclick="viewPost(4)">关于创作与生活的思考</h2>
+                                <div class="blog-meta">
+                                    <span>2024年12月5日</span>
+                                    <span>随笔感悟</span>
+                                    <span class="status-published blog-status">已发布</span>
+                                </div>
+                            </div>
+                            <div class="blog-actions">
+                                <button class="action-btn" onclick="editPost(4)">编辑</button>
+                                <button class="action-btn delete" onclick="deletePost(4)">删除</button>
+                            </div>
+                        </div>
+                        
+                        <div class="blog-excerpt">
+                            创作是生活的延伸，生活是创作的源泉。在忙碌的现代生活中，如何平衡创作激情与日常琐事？如何在平凡中发现不平凡？这些都是每一个创作者需要思考的问题...
+                        </div>
+                        
+                        <div class="blog-tags">
+                            <span class="tag">创作</span>
+                            <span class="tag">生活</span>
+                            <span class="tag">思考</span>
+                            <span class="tag">感悟</span>
+                        </div>
+                        
+                        <div class="blog-stats-mini">
+                            <span>阅读 89</span>
+                            <span>点赞 15</span>
+                            <span>评论 8</span>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="pagination">
+                    <a href="#">‹ 上一页</a>
+                    <span class="current">1</span>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">下一页 ›</a>
+                </div>
+            </section>
+
+            <!-- 右侧侧边栏 -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">最新文章</h3>
+                    <ul class="sidebar-list">
+                        <li><a href="#">黑白摄影的艺术表达 <span class="sidebar-count">158</span></a></li>
+                        <li><a href="#">React 18新特性深度解析 <span class="sidebar-count">342</span></a></li>
+                        <li><a href="#">关于创作与生活的思考 <span class="sidebar-count">89</span></a></li>
+                        <li><a href="#">城市街头摄影技巧分享 <span class="sidebar-count">203</span></a></li>
+                        <li><a href="#">人像摄影中的光线运用 <span class="sidebar-count">176</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">分类统计</h3>
+                    <ul class="sidebar-list">
+                        <li><a href="#">摄影作品 <span class="sidebar-count">5</span></a></li>
+                        <li><a href="#">技术分享 <span class="sidebar-count">3</span></a></li>
+                        <li><a href="#">生活记录 <span class="sidebar-count">2</span></a></li>
+                        <li><a href="#">随笔感悟 <span class="sidebar-count">2</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">热门标签</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">摄影</span>
+                        <span class="tag">技术</span>
+                        <span class="tag">生活</span>
+                        <span class="tag">创作</span>
+                        <span class="tag">React</span>
+                        <span class="tag">黑白</span>
+                        <span class="tag">艺术</span>
+                        <span class="tag">设计</span>
+                    </div>
+                </div>
+
+                <!-- XSS测试区域 -->
+                <div class="sidebar-section" id="xss-test">
+                    <h3 class="sidebar-title">搜索测试</h3>
+                    <div style="margin-bottom: 15px;">
+                        <input type="text" id="xssSearchInput" placeholder="输入搜索内容..." 
+                            style="width: 100%; padding: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 4px;">
+                    </div>
+                    <button onclick="testXSSSearch()" style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px; cursor: pointer;">测试搜索</button>
+                    <div id="xssSearchResult" style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 4px; min-height: 50px; color: #ccc; font-size: 0.9rem;">
+                        搜索结果将显示在这里...
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <div>Copyright © 2025 Neuroblue. All rights reserved.</div>
+        </footer>
+
+        <script>
+            // 筛选功能
+            function filterBlogs() {
+                const categoryFilter = document.getElementById('categoryFilter').value;
+                const statusFilter = document.getElementById('statusFilter').value;
+                const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+                const blogCards = document.querySelectorAll('.blog-card');
+                
+                blogCards.forEach(card => {
+                    const category = card.dataset.category;
+                    const status = card.dataset.status;
+                    const title = card.querySelector('.blog-title').textContent.toLowerCase();
+                    
+                    const categoryMatch = !categoryFilter || category === categoryFilter;
+                    const statusMatch = !statusFilter || status === statusFilter;
+                    const searchMatch = !searchQuery || title.includes(searchQuery);
+                    
+                    if (categoryMatch && statusMatch && searchMatch) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            // 绑定筛选事件
+            document.getElementById('categoryFilter').addEventListener('change', filterBlogs);
+            document.getElementById('statusFilter').addEventListener('change', filterBlogs);
+            document.getElementById('searchInput').addEventListener('input', filterBlogs);
+            
+            // XSS测试函数 - 反射型XSS（博客页面）
+            function testXSSSearch() {
+                const input = document.getElementById('xssSearchInput').value;
+                const resultDiv = document.getElementById('xssSearchResult');
+                
+                if (input.trim()) {
+                    resultDiv.innerHTML = input;
+                } else {
+                    resultDiv.textContent = '请输入搜索内容';
+                }
+            }
+            //  resultDiv.textContent = input.trim() || '请输入搜索内容';
+
+            // 查看文章
+            function viewPost(id) {
+                console.log(`查看文章 ID: ${id}`);
+                showNotification('正在跳转到文章详情页...');
+                // 这里可以跳转到文章详情页
+            }
+            
+            // 编辑文章
+            function editPost(id) {
+                console.log(`编辑文章 ID: ${id}`);
+                showNotification('正在跳转到编辑页面...');
+                // 这里可以跳转到编辑页面
+                window.location.href = 'blog-publish.html';
+            }
+            
+            // 删除文章
+            function deletePost(id) {
+                if (confirm('确定要删除这篇文章吗？此操作不可撤销。')) {
+                    const cards = document.querySelectorAll('.blog-card');
+                    const targetCard = Array.from(cards).find((card, index) => index + 1 === id);
+                    
+                    if (targetCard) {
+                        targetCard.style.opacity = '0';
+                        targetCard.style.transform = 'translateX(-20px)';
+                        
+                        setTimeout(() => {
+                            targetCard.remove();
+                            updateStats();
+                        }, 300);
+                        
+                        showNotification('文章已删除');
+                    }
+                }
+            }
+            
+            // 更新统计数据
+            function updateStats() {
+                const totalPosts = document.querySelectorAll('.blog-card').length;
+                const statNumbers = document.querySelectorAll('.stat-number');
+                if (statNumbers[0]) {
+                    statNumbers[0].textContent = totalPosts;
+                }
+            }
+            
+            // 显示通知
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: rgba(0,0,0,0.9);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 6px;
+                    border: 1px solid rgba(255,255,255,0.2);
+                    font-size: 0.9rem;
+                    z-index: 1000;
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                // 显示动画
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 100);
+                
+                // 自动隐藏
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+            
+            // 标签云点击事件
+            document.querySelectorAll('.tag-cloud .tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const tagText = this.textContent;
+                    document.getElementById('searchInput').value = tagText;
+                    filterBlogs();
+                    showNotification(`正在筛选标签："${tagText}"`);
+                });
+            });
+            
+            // 页面加载完成后的初始化
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('个人博客页面已加载');
+            });
+        </script>
+    </body>
+    </html>

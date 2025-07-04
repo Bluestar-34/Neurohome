@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 页面未找到</title>
+    <link rel="stylesheet" href="css/login.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .notfound-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: black;
+        }
+        .notfound-title {
+            font-size: 5rem;
+            font-family: "Playfair Display", serif;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .notfound-msg {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: #ccc;
+        }
+        .back-home-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 12px 36px;
+            font-size: 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+        .back-home-btn:hover {
+            background: black;
+            color: white;
+        }
+        .notfound-art {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: white;
+            font-family: "Montserrat", sans-serif;
+        }
+        .footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-placeholder" style="height: 50px;"></div>
+    <div class="main-container">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <div class="nav-left">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="user.html">个人中心</a></li>
+                    <li><a href="video.html">视频播放</a></li>
+                    <li><a href="forum.html">社区论坛</a></li>
+                </div>
+                <div class="nav-right">
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                    <li><a href="#">下载</a></li>
+                    <li><a href="#">关于</a></li>
+                    <li><a href="#">联系</a></li>
+                </div>  
+            </ul>
+        </nav>
+        <div class="notfound-container">
+            <div class="notfound-title">404</div>
+            <div class="notfound-art">黑是光的容器，白是影的独白</div>
+            <div class="notfound-msg">抱歉，您访问的页面走丢了…</div>
+            <a href="index.html" class="back-home-btn">返回首页</a>
+        </div>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="right">
+                    Copyright © 2025 开课吧. All rights reserved.
+                </div>
+                <a href="#top" class="back-to-top">↑</a>    
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

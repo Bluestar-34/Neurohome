@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+    <div class="header-placeholder" style="height: 50px;"></div>
+    <div class="main-container">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <div class="nav-left">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="video.html">视频中心</a></li>
+                    <li><a href="forum.html">社区论坛</a></li>
+                    <li><a href="blog.html">个人博客</a></li>
+                    <li><a href="links.html">友情链接</a></li>
+                </div>
+                <div class="nav-right">
+                    <li><a href="user.html">个人中心</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                    <li><a href="support.html">打赏支持</a></li>
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                </div>  
+            </ul>
+        </nav>
+         
+        <div class="header">
+            <div class="header-left">
+                <div class="main-title">
+                    <div class="title">Neuroblue</div><span class="title-b">·star</span>
+                </div>
+                <div class="sub-title">
+                    <a href="index.html">黑是光的容器，白是影的独白</a>
+                </div>
+            </div>
+           
+            <div class="right-logo sub-title">
+                <!-- <img src="images/1.svg" alt="Logo" class="logo-img">
+                <img src="images/5.svg" alt="Logo" class="logo-img">
+                <img src="images/3.svg" alt="Logo" class="logo-img">
+                <img src="images/4.svg" alt="Logo" class="logo-img"> -->
+                沉默是声音的剪影，喧嚣是寂静的镜像
+            </div>
+        </div>
+
+        <div class="register-container">
+            <!-- 左上艺术字
+            <div class="art-text-left">光影艺术</div>
+
+            <--! 右下艺术字 -->
+            <!-- <div class="art-text-right">创作之美</div> --> 
+
+            <div class="register-content">
+                <div class="register-header con">
+                    <h1 class="register-title">注册</h1>
+                    <p class="register-subtitle">加入摄影艺术的创作之旅</p>
+                </div>
+                <form class="register-form">
+                    <div class="form-group con">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" name="username" required>
+                        <div id="username-error" class="error-message" style="color:white;height:20px;"></div>
+                    </div>
+                    <div class="form-group con">
+                        <label for="email">邮箱地址</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group con" style="position: relative;">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" name="password" required>
+                        <button type="button" id="toggle-password" class="toggle-password-btn" tabindex="-1" aria-label="显示或隐藏密码">👁</button>
+                    </div>
+                    <div class="form-group con">
+                        <label for="confirm-password">确认密码</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="agree" required>
+                            <span class="checkmark con"></span>
+                            我同意<a href="#" class="terms-link">服务条款</a>和<a href="#" class="privacy-link">隐私政策</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="register-btn con">注册</button>
+                </form>
+                <div class="register-footer con">
+                    <p>已有账户？ <a href="login.html" class="login-link" style="color: white;">立即登录</a></p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="right">
+                    Copyright © 2025 开课吧. All rights reserved.
+                </div>
+                <a href="#top" class="back-to-top">↑</a>    
+            </div>
+        </footer>
+    </div>
+    <script src="js/register.js"></script>
+</body>
+</html>

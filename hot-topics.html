@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>热门话题 - Neuroblue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 顶部导航栏 */
+        .top-nav {
+            background: #000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .nav-links a.active {
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 40px;
+        }
+        
+        /* 左侧话题列表 */
+        .topics-section {
+            min-height: 0;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .new-topic-btn {
+            background: white;
+            border: none;
+            color: #000;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .new-topic-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        /* 筛选控制 */
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: center;
+        }
+        
+        .filter-tab {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tab:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .filter-tab.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.85rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .search-input::placeholder {
+            color: #666;
+            opacity: 1;
+        }
+        
+        /* 热门话题列表 */
+        .topics-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        
+        .topic-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .topic-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .topic-item.trending {
+            border-left: 2px solid white;
+        }
+        
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .topic-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .topic-rank {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            min-width: 30px;
+        }
+        
+        .topic-category {
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+        }
+        
+        .topic-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .topic-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .topic-description {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .topic-engagement {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .engagement-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .topic-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: rgba(255,255,255,0.05);
+            color: #888;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+        }
+        
+        /* 右侧侧边栏 */
+        .sidebar {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .sidebar-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .trending-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .trending-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+        
+        .trending-rank {
+            font-weight: bold;
+            color: white;
+            min-width: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .trending-title {
+            color: #ccc;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            flex: 1;
+        }
+        
+        .trending-count {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        
+        .category-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .category-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .category-name {
+            color: #ccc;
+            font-size: 0.85rem;
+        }
+        
+        .category-count {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 15px 10px;
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .stat-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+        }
+        
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 30px;
+        }
+        
+        .pagination a,
+        .pagination span {
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+        
+        .pagination a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .pagination .current {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        /* 底部 */
+        .footer {
+            background: #000;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px 15px;
+            }
+            
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .topic-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .topic-stats {
+                align-items: flex-start;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Neuroblue</a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="video.html">视频中心</a></li>
+                <li><a href="forum.html">社区论坛</a></li>
+                <li><a href="blog.html">个人博客</a></li>
+                <li><a href="links.html">友情链接</a></li>
+                <li><a href="sitemap.html">项目索引</a></li>
+                <li><a href="user.html">个人中心</a></li>
+                <li><a href="about.html">关于我们</a></li>
+                <li><a href="support.html">打赏支持</a></li>
+                <li><a href="settings.html">账号设置</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <!-- 左侧话题列表 -->
+        <section class="topics-section">
+            <div class="section-header">
+                <h1 class="section-title">热门话题</h1>
+                <a href="new-topic.html" class="new-topic-btn">发起话题</a>
+            </div>
+            
+            <!-- 筛选控制 -->
+            <div class="filter-controls">
+                <div class="filter-tab active" data-filter="all">全部</div>
+                <div class="filter-tab" data-filter="tech">技术</div>
+                <div class="filter-tab" data-filter="life">生活</div>
+                <div class="filter-tab" data-filter="photo">摄影</div>
+                <div class="filter-tab" data-filter="design">设计</div>
+                <input type="text" class="search-input" placeholder="搜索话题..." id="searchInput">
+            </div>
+            
+            <!-- 话题列表 -->
+            <div class="topics-list" id="topicsList">
+                <div class="topic-item trending" data-category="tech">
+                    <div class="topic-header">
+                        <div class="topic-meta">
+                            <div class="topic-rank">1</div>
+                            <div class="topic-category">技术讨论</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>热度: 9.8k</div>
+                            <div>2小时前</div>
+                        </div>
+                    </div>
+                    <h2 class="topic-title">2024年前端开发趋势预测与分析</h2>
+                    <div class="topic-description">
+                        随着技术的快速发展，前端开发领域正在经历着前所未有的变革。从React 18的并发特性到Vue 3的Composition API，从WebAssembly的普及到边缘计算的兴起，每一个变化都在重塑着我们的开发方式...
+                    </div>
+                    <div class="topic-engagement">
+                        <div class="engagement-stats">
+                            <span>1.2k 参与</span>
+                            <span>456 回复</span>
+                            <span>89 收藏</span>
+                        </div>
+                        <div class="topic-tags">
+                            <span class="tag">前端开发</span>
+                            <span class="tag">技术趋势</span>
+                            <span class="tag">React</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-item trending" data-category="photo">
+                    <div class="topic-header">
+                        <div class="topic-meta">
+                            <div class="topic-rank">2</div>
+                            <div class="topic-category">摄影分享</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>热度: 8.5k</div>
+                            <div>4小时前</div>
+                        </div>
+                    </div>
+                    <h2 class="topic-title">街头摄影中的光影捕捉技巧</h2>
+                    <div class="topic-description">
+                        街头摄影是最具挑战性的摄影形式之一，它要求摄影师在瞬息万变的环境中捕捉到完美的瞬间。光影的运用往往决定了一张街头照片的成败。本话题将深入探讨如何在复杂的城市环境中...
+                    </div>
+                    <div class="topic-engagement">
+                        <div class="engagement-stats">
+                            <span>890 参与</span>
+                            <span>234 回复</span>
+                            <span>156 收藏</span>
+                        </div>
+                        <div class="topic-tags">
+                            <span class="tag">街头摄影</span>
+                            <span class="tag">光影技巧</span>
+                            <span class="tag">摄影教程</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-item" data-category="life">
+                    <div class="topic-header">
+                        <div class="topic-meta">
+                            <div class="topic-rank">3</div>
+                            <div class="topic-category">生活方式</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>热度: 7.2k</div>
+                            <div>6小时前</div>
+                        </div>
+                    </div>
+                    <h2 class="topic-title">极简主义生活方式的实践分享</h2>
+                    <div class="topic-description">
+                        在这个物质丰富的时代，越来越多的人开始追求极简主义生活方式。它不仅仅是物品的减少，更是一种内心的平静与专注。让我们一起分享极简生活的实践经验和心得体会...
+                    </div>
+                    <div class="topic-engagement">
+                        <div class="engagement-stats">
+                            <span>675 参与</span>
+                            <span>189 回复</span>
+                            <span>234 收藏</span>
+                        </div>
+                        <div class="topic-tags">
+                            <span class="tag">极简主义</span>
+                            <span class="tag">生活方式</span>
+                            <span class="tag">心理健康</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-item" data-category="design">
+                    <div class="topic-header">
+                        <div class="topic-meta">
+                            <div class="topic-rank">4</div>
+                            <div class="topic-category">设计美学</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>热度: 6.8k</div>
+                            <div>8小时前</div>
+                        </div>
+                    </div>
+                    <h2 class="topic-title">黑白设计在现代UI中的应用</h2>
+                    <div class="topic-description">
+                        黑白设计看似简单，实则蕴含着深刻的设计哲学。在现代UI设计中，黑白配色不仅能够创造出简洁优雅的视觉效果，更能突出内容本身的重要性。本话题将探讨黑白设计的设计原则...
+                    </div>
+                    <div class="topic-engagement">
+                        <div class="engagement-stats">
+                            <span>543 参与</span>
+                            <span>145 回复</span>
+                            <span>198 收藏</span>
+                        </div>
+                        <div class="topic-tags">
+                            <span class="tag">UI设计</span>
+                            <span class="tag">黑白设计</span>
+                            <span class="tag">视觉设计</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-item" data-category="tech">
+                    <div class="topic-header">
+                        <div class="topic-meta">
+                            <div class="topic-rank">5</div>
+                            <div class="topic-category">技术讨论</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>热度: 5.9k</div>
+                            <div>12小时前</div>
+                        </div>
+                    </div>
+                    <h2 class="topic-title">AI工具在创意工作中的应用探索</h2>
+                    <div class="topic-description">
+                        人工智能正在改变创意工作的方式，从文案写作到图像生成，从音乐创作到视频编辑，AI工具正在成为创作者的得力助手。如何合理利用AI工具提升创作效率，同时保持原创性...
+                    </div>
+                    <div class="topic-engagement">
+                        <div class="engagement-stats">
+                            <span>432 参与</span>
+                            <span>98 回复</span>
+                            <span>165 收藏</span>
+                        </div>
+                        <div class="topic-tags">
+                            <span class="tag">人工智能</span>
+                            <span class="tag">创意工具</span>
+                            <span class="tag">工作效率</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-item" data-category="life">
+                    <div class="topic-header">
+                        <div class="topic-meta">
+                            <div class="topic-rank">6</div>
+                            <div class="topic-category">生活方式</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>热度: 4.7k</div>
+                            <div>1天前</div>
+                        </div>
+                    </div>
+                    <h2 class="topic-title">数字化时代的专注力训练方法</h2>
+                    <div class="topic-description">
+                        在信息爆炸的数字化时代，保持专注力变得越来越困难。社交媒体、即时通讯、各种通知不断地分散着我们的注意力。如何在这样的环境中培养和维持深度专注的能力...
+                    </div>
+                    <div class="topic-engagement">
+                        <div class="engagement-stats">
+                            <span>387 参与</span>
+                            <span>76 回复</span>
+                            <span>142 收藏</span>
+                        </div>
+                        <div class="topic-tags">
+                            <span class="tag">专注力</span>
+                            <span class="tag">时间管理</span>
+                            <span class="tag">个人成长</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分页 -->
+            <div class="pagination">
+                <a href="#">‹ 上一页</a>
+                <span class="current">1</span>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">下一页 ›</a>
+            </div>
+        </section>
+
+        <!-- 右侧侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">今日热门</h3>
+                <ul class="trending-list">
+                    <li class="trending-item">
+                        <div class="trending-rank">1</div>
+                        <div class="trending-title">前端开发趋势预测</div>
+                        <div class="trending-count">9.8k</div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-rank">2</div>
+                        <div class="trending-title">街头摄影光影技巧</div>
+                        <div class="trending-count">8.5k</div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-rank">3</div>
+                        <div class="trending-title">极简主义生活方式</div>
+                        <div class="trending-count">7.2k</div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-rank">4</div>
+                        <div class="trending-title">黑白设计应用</div>
+                        <div class="trending-count">6.8k</div>
+                    </li>
+                    <li class="trending-item">
+                        <div class="trending-rank">5</div>
+                        <div class="trending-title">AI工具应用探索</div>
+                        <div class="trending-count">5.9k</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">话题分类</h3>
+                <ul class="category-list">
+                    <li class="category-item" data-category="tech">
+                        <span class="category-name">技术讨论</span>
+                        <span class="category-count">156</span>
+                    </li>
+                    <li class="category-item" data-category="photo">
+                        <span class="category-name">摄影分享</span>
+                        <span class="category-count">134</span>
+                    </li>
+                    <li class="category-item" data-category="life">
+                        <span class="category-name">生活方式</span>
+                        <span class="category-count">98</span>
+                    </li>
+                    <li class="category-item" data-category="design">
+                        <span class="category-name">设计美学</span>
+                        <span class="category-count">76</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">社区统计</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">1,234</div>
+                        <div class="stat-label">活跃话题</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5,678</div>
+                        <div class="stat-label">今日参与</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">23k</div>
+                        <div class="stat-label">总讨论数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12k</div>
+                        <div class="stat-label">社区成员</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div>Copyright © 2025 Neuroblue. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // 筛选功能
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                filterTopics(filter);
+            });
+        });
+        
+        // 分类点击筛选
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const category = this.dataset.category;
+                
+                // 更新筛选标签
+                document.querySelectorAll('.filter-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.dataset.filter === category) {
+                        tab.classList.add('active');
+                    }
+                });
+                
+                filterTopics(category);
+            });
+        });
+        
+        // 筛选话题功能
+        function filterTopics(activeFilter = 'all') {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const topicItems = document.querySelectorAll('.topic-item');
+            
+            topicItems.forEach(item => {
+                const category = item.dataset.category;
+                const content = item.textContent.toLowerCase();
+                
+                const categoryMatch = activeFilter === 'all' || category === activeFilter;
+                const searchMatch = !searchQuery || content.includes(searchQuery);
+                
+                if (categoryMatch && searchMatch) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', () => {
+            const activeTab = document.querySelector('.filter-tab.active');
+            const activeFilter = activeTab ? activeTab.dataset.filter : 'all';
+            filterTopics(activeFilter);
+        });
+        
+        // 话题点击事件
+        document.querySelectorAll('.topic-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('.topic-title').textContent;
+                alert(`正在跳转到话题：${title}`);
+                // 这里可以跳转到话题详情页
+            });
+        });
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('热门话题页面已加载');
+        });
+    </script>
+</body>
+</html> 

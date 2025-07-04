@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuroblue 蓝色星球圈</title>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        /* 新增样式 */
+        .hero-section {
+            background: linear-gradient(135deg, #000 0%, #111 100%);
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .hero-btn {
+            padding: 15px 30px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .hero-btn.primary {
+            background: white;
+            color: black;
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+        }
+        
+        .quick-access {
+            background: #111;
+            padding: 60px 0;
+        }
+        
+        .quick-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+        
+        .quick-card {
+            background: #181818;
+            border: 1px solid #333;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .quick-card:hover {
+            border-color: #666;
+            transform: translateY(-5px);
+        }
+        
+        .quick-icon {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .quick-title {
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .quick-desc {
+            color: #888;
+            line-height: 1.6;
+        }
+        
+        .content-section {
+            padding: 80px 0;
+            background: #000;
+        }
+        
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .section-subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .content-card {
+            background: #181818;
+            border: 1px solid #333;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .content-card:hover {
+            border-color: #666;
+            transform: translateY(-3px);
+        }
+        
+        .content-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .content-info {
+            padding: 20px;
+        }
+        
+        .content-title {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .content-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .content-desc {
+            color: #ccc;
+            line-height: 1.5;
+        }
+        
+        .stats-section {
+            background: #111;
+            padding: 60px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 30px 20px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 1rem;
+        }
+        
+        .news-section {
+            background: #000;
+            padding: 60px 0;
+        }
+        
+        .news-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .news-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .news-title {
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .news-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .view-more {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .view-more-btn {
+            padding: 12px 30px;
+            border: 1px solid #666;
+            background: transparent;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .view-more-btn:hover {
+            border-color: white;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-placeholder" style="height: 50px;"></div>
+    <div class="main-container">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <div class="nav-left">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="video.html">视频中心</a></li>
+                    <li><a href="forum.html">社区论坛</a></li>
+                    <li><a href="blog.html">个人博客</a></li>
+                    <li><a href="links.html">友情链接</a></li>
+                    <li><a href="sitemap.html">项目索引</a></li>
+                </div>
+                <div class="nav-right">
+                    <li><a href="user.html">个人中心</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                    <li><a href="support.html">打赏支持</a></li>
+                    <li><a href="settings.html">账号设置</a></li>
+                <li><a href="security-test.html">安全测试</a></li>
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                </div>  
+            </ul>
+        </nav>
+         
+        <div class="header">
+            <div class="header-left">
+                <div class="main-title">
+                    <div class="title">Neuroblue</div><span class="title-b">·star</span>
+                </div>
+                <div class="sub-title">
+                    <a href="index.html">黑是光的容器，白是影的独白</a>
+                </div>
+            </div>
+           
+            <div class="right-logo sub-title">
+                沉默是声音的剪影，喧嚣是寂静的镜像
+            </div>
+        </div>
+        
+        <!-- 主视觉区域 -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">黑白创作平台</h1>
+                <p class="hero-subtitle">在这里，每一个想法都能得到最纯粹的表达。分享你的摄影作品、技术心得、生活感悟，与志同道合的创作者一起成长。</p>
+                <div class="hero-actions">
+                    <a href="video-publish.html" class="hero-btn primary">发布视频</a>
+                    <a href="blog-publish.html" class="hero-btn">写博客</a>
+                    <a href="new-topic.html" class="hero-btn">发帖讨论</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 快速入口 -->
+        <section class="quick-access">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">快速开始</h2>
+                    <p class="section-subtitle">选择你感兴趣的内容类型，开始你的创作之旅</p>
+                </div>
+                <div class="quick-grid">
+                    <div class="quick-card" onclick="location.href='video.html'">
+                        <div class="quick-icon">VIDEO</div>
+                        <h3 class="quick-title">视频中心</h3>
+                        <p class="quick-desc">观看精选视频，学习摄影技巧，分享你的创作作品</p>
+                    </div>
+                    <div class="quick-card" onclick="location.href='blog.html'">
+                        <div class="quick-icon">BLOG</div>
+                        <h3 class="quick-title">个人博客</h3>
+                        <p class="quick-desc">记录生活感悟，分享技术心得，展示你的文字魅力</p>
+                    </div>
+                    <div class="quick-card" onclick="location.href='forum.html'">
+                        <div class="quick-icon">FORUM</div>
+                        <h3 class="quick-title">社区论坛</h3>
+                        <p class="quick-desc">参与话题讨论，结识志同道合的朋友，交流创作经验</p>
+                    </div>
+                    <div class="quick-card" onclick="location.href='user.html'">
+                        <div class="quick-icon">USER</div>
+                        <h3 class="quick-title">个人中心</h3>
+                        <p class="quick-desc">管理你的内容，查看浏览记录，个性化你的创作空间</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 精选内容 -->
+        <section class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">精选内容</h2>
+                    <p class="section-subtitle">发现优质创作，感受黑白世界的独特魅力</p>
+                </div>
+                <div class="content-grid">
+                    <div class="content-card">
+                        <img src="https://images.pexels.com/photos/32676064/pexels-photo-32676064.jpeg" alt="摄影作品" class="content-image">
+                        <div class="content-info">
+                            <h3 class="content-title">黑白摄影的艺术表达</h3>
+                            <div class="content-meta">摄影教程 · 2.3K 观看</div>
+                            <p class="content-desc">探索黑白摄影的独特魅力，学习如何用光影讲述故事</p>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <img src="https://images.pexels.com/photos/11760369/pexels-photo-11760369.jpeg" alt="技术分享" class="content-image">
+                        <div class="content-info">
+                            <h3 class="content-title">前端开发最佳实践</h3>
+                            <div class="content-meta">技术分享 · 1.8K 阅读</div>
+                            <p class="content-desc">分享多年开发经验，探讨前端技术的最新趋势和最佳实践</p>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <img src="https://images.pexels.com/photos/19811991/pexels-photo-19811991.jpeg" alt="生活感悟" class="content-image">
+                        <div class="content-info">
+                            <h3 class="content-title">极简主义生活哲学</h3>
+                            <div class="content-meta">生活感悟 · 956 阅读</div>
+                            <p class="content-desc">在复杂的世界中寻找简单，探讨极简主义对生活的积极影响</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-more">
+                    <a href="video.html" class="view-more-btn">查看更多内容</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据统计 -->
+        <section class="stats-section">
+            <div class="section-container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">活跃用户</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5K+</div>
+                        <div class="stat-label">原创内容</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">创作者</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">365</div>
+                        <div class="stat-label">天持续运营</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 最新动态 -->
+        <section class="news-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">最新动态</h2>
+                    <p class="section-subtitle">了解平台最新功能和社区动态</p>
+                </div>
+                <div class="news-list">
+                    <div class="news-item">
+                        <span class="news-title">新增视频发布功能，支持多种格式上传</span>
+                        <span class="news-date">2024-12-20</span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">博客编辑器升级，支持Markdown语法</span>
+                        <span class="news-date">2024-12-18</span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">社区论坛新增话题分类功能</span>
+                        <span class="news-date">2024-12-15</span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">个人中心界面优化，提升用户体验</span>
+                        <span class="news-date">2024-12-12</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+          
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="right">
+                    Copyright © 2025 Neuroblue. All rights reserved.
+                </div>
+                <a href="#top" class="back-to-top">↑</a>    
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
